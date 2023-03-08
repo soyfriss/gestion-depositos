@@ -11,3 +11,4 @@
 - Express
 - Sequelize
 - Postgres
+- Passport
