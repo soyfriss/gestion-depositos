@@ -7,7 +7,7 @@ const createCategory = async (name) => {
     // Validate data
     const errors = await validateCategory({ name });
     if (errors) {
-        throw new ValidationError('Validation error', errors, httpStatusCodes.BAD_REQUEST);
+        throw new ValidationError(JSON.stringify(errors), httpStatusCodes.BAD_REQUEST);
     }
 
     const category = await Category.create({
