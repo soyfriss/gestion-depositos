@@ -9,27 +9,21 @@ async function validateCategory(data) {
         // name
         if (!data.name) {
             return {
-                errors: {
-                    name: constants.FIELD_REQUIRED,
-                }
+                name: constants.FIELD_REQUIRED,
             };
         }
 
         // name length
         if (data.name.length > 255) {
             return {
-                errors: {
-                    name: constants.MAX_LENGTH_EXCEEDED,
-                }
+                name: constants.MAX_LENGTH_EXCEEDED,
             };
         }
 
         // check for categories with the same name
         if (await existCategory(data.name.trim(), data.id)) {
             return {
-                errors: {
-                    name: constants.DUPLICATED_NAME,
-                }
+                name: constants.DUPLICATED_NAME,
             };
         }
 
@@ -41,9 +35,7 @@ async function validateCategory(data) {
     } catch (error) {
         console.log('Validation error: ', error);
         return {
-            errors: {
-                errors: constants.VALIDATION_ERRORS
-            }
+            validationError: constants.VALIDATION_ERRORS
         };
     }
 }
