@@ -1,9 +1,16 @@
 const { Category } = require('../../db');
+const httpStatusCodes = require('../../utils/http-status-codes');
 
-const getCategory = async (id) => {
-    let category = await Category.findByPk(id);
+const getCategory = async (req, res, next) => {
+    try {
+        const { id } = req.params;
 
-    return category;
+        let category = await Category.findByPk(id);
+
+        res.status(httpStatusCodes.OK).json(category);
+    } catch (error) {
+        next(error);
+    }
 }
 
 module.exports = { getCategory };
