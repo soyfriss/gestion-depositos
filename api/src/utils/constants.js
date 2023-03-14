@@ -3,6 +3,7 @@ const constants = {
     EMPTY_ITEM_IN_LIST: "One or more items are empty",
     INVALID_ITEM_IN_LIST: "One or more items are invalid",
     ITEM_NOT_IN_LIST: "Item not in list",
+    ITEM_NOT_FOUND: "Item not found",
     INVALID_DATA: 'Field has invalid data',
     INVALID_STOCK: 'Stock value must be equal or greater than 0',
     INVALID_PRICE: 'Price value must be greater than 0',
