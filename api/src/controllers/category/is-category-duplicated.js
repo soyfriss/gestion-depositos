@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 const { Category } = require('../../db');
 
-const existCategory = async (name, id = 0) => {
+const isCategoryDuplicated = async (name, id = 0) => {
     const options = {};
     const nameCondition = { [Op.iLike]: `${name}` };
     const idCondition = { [Op.ne]: id }
@@ -12,4 +12,4 @@ const existCategory = async (name, id = 0) => {
     return (categories.count > 0);
 }
 
-module.exports = { existCategory };
+module.exports = { isCategoryDuplicated };

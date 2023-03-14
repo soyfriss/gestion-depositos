@@ -1,20 +1,17 @@
 const { Category } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
-const ValidationError = require('../../utils/validation-error');
-const validateCategory = require('./validate-category');
 
-const createCategory = async (name) => {
-    // Validate data
-    const errors = await validateCategory({ name });
-    if (errors) {
-        throw new ValidationError(JSON.stringify(errors), httpStatusCodes.BAD_REQUEST);
+const createCategory = async (req, res, next) => {
+    try {
+        const { name } = req.body;
+        const category = await Category.create({
+            name
+        });
+
+        res.status(httpStatusCodes.OK).json(category);
+    } catch (error) {
+        next(error);
     }
-
-    const category = await Category.create({
-        name
-    });
-
-    return category;
 }
 
 module.exports = { createCategory };
