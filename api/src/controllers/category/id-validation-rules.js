@@ -10,7 +10,7 @@ const idValidationRules = () => {
             .isNumeric().withMessage(constants.INCORRECT_TYPE)
             .bail()
             .custom(async (value, { req }) => {
-                if (value !== req.body.id) {
+                if (value !== req.body.id + '') {
                     return Promise.reject(constants.INVALID_DATA);
                 }
             }),

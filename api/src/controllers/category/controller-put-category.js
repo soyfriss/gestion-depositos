@@ -1,5 +1,6 @@
 const { Category } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
+const constants = require('../../utils/constants');
 
 const editCategory = async (req, res, next) => {
     try {
@@ -7,6 +8,9 @@ const editCategory = async (req, res, next) => {
         const { name } = req.body;
 
         let category = await Category.findByPk(id);
+        if (!category) {
+            return res.status(httpStatusCodes.BAD_REQUEST).json({ error: constants.ITEM_NOT_FOUND});
+        }
 
         await category.update({
             name
