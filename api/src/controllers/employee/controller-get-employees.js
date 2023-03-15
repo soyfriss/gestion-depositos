@@ -13,11 +13,16 @@ const getEmployees = async (req, res, next) => {
             options.order = [JSON.parse(sort)];
         }
     
-        // Filter by firstname
         if (filter && Object.keys(JSON.parse(filter)).length > 0) {
             const filterObj = JSON.parse(filter);
+            
             const firstNameCondition = filterObj.firstName ? { [Op.iLike]: `${JSON.parse(filter).firstName}%` } : { [Op.iLike]: '%' };
-            options.where = { firstname: firstNameCondition };
+            const lastNameCondition = filterObj.lastName ? { [Op.iLike]: `${JSON.parse(filter).lastName}%` } : { [Op.iLike]: '%' };
+            const emailCondition = filterObj.email ? { [Op.iLike]: `${JSON.parse(filter).email}%` } : { [Op.iLike]: '%' };
+            const phoneCondition = filterObj.phone ? { [Op.iLike]: `${JSON.parse(filter).phone}%` } : { [Op.iLike]: '%' };
+            const fileNumberCondition = filterObj.fileNumber ? { [Op.iLike]: `${JSON.parse(filter).fileNumber}%` } : { [Op.iLike]: '%' };
+
+            options.where = { [Op.and]: [{ firstname: firstNameCondition }, { lastname: lastNameCondition }, { email: emailCondition }, { phone: phoneCondition }, { filenumber: fileNumberCondition }]};
         }
     
         let employees = await Employee.findAndCountAll(options);
