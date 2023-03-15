@@ -1,4 +1,5 @@
 const { Category } = require('../db');
+const { Employee } = require('../db');
 
 module.exports = async () => {
     // Categories
@@ -18,5 +19,19 @@ module.exports = async () => {
     ];
 
     await Category.bulkCreate(categories);
+
+    // Employee
+    const employee = [
+        {
+            firstname: "Nicolás",
+            lastname: "Rotili",
+            email: "rotilinicolas@gmail.com",
+            phone: "3364372952",
+            filenumber: "2680"
+        },
+    ];
+
+    await Employee.bulkCreate(employee);
+
 
 }
