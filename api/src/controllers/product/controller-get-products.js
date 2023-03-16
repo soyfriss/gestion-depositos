@@ -14,7 +14,8 @@ const getProducts = async (req, res, next) => {
                 through: {
                     attributes: []
                 }
-            }]
+            }],
+            distinct: true  // count value issue: https://stackoverflow.com/questions/64354987/findandcountall-count-gets-a-bigger-number-than-the-actual-returned-data
         };
 
         if (sort) {
@@ -22,11 +23,25 @@ const getProducts = async (req, res, next) => {
         }
 
         if (filter && Object.keys(JSON.parse(filter)).length > 0) {
+            const filters = [];
             const filterObj = JSON.parse(filter);
-            const idsCondition = filterObj.id ? { [Op.in]: filterObj.id } : { [Op.gt]: 0 };
-            const nameCondition = filterObj.name ? { [Op.iLike]: `${filterObj.name}%` } : { [Op.iLike]: '%' };
-            const statusCondition = filterObj.status ? { [Op.eq]: filterObj.status } : { [Op.in]: ['Active', 'Disabled'] };
-            options.where = { [Op.and]: [{ id: idsCondition }, { name: nameCondition }, { status: statusCondition }] };
+            if (filterObj.id) {
+                filters.push({ id: { [Op.in]: filterObj.id } });
+            }
+            if (filterObj.name) {
+                filters.push({ name: { [Op.iLike]: `${filterObj.name}%` } });
+            }
+            if (filterObj.status) {
+                filters.push({ status: { [Op.eq]: filterObj.status } });
+            }
+            if (filters.length) {
+                options.where = { [Op.and]: filters };
+            }
+
+            // Filter by categories
+            if (filterObj.categories) {
+                options.include[0].where = { id: { [Op.in]: filterObj.categories } };
+            }
         }
 
         let products = await Product.findAndCountAll(options);
