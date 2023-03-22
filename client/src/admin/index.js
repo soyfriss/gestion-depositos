@@ -6,6 +6,7 @@ import { CategoryCreate } from './category/category-create';
 import { EmployeeList } from './employee/employee-list';
 import { EmployeeEdit } from './employee/employee-edit';
 import { EmployeeCreate } from './employee/employee-create';
+import { ProductList } from './product/product-list';
 
 function App() {
     return <>
@@ -17,13 +18,17 @@ function App() {
                 create={CategoryCreate}
                 recordRepresentation='name'
             />
-
             <Resource
                 name='employees'
                 list={EmployeeList}
                 edit={EmployeeEdit}
                 create={EmployeeCreate}
                 recordRepresentation='filenumber'
+            />
+            <Resource
+                name='products'
+                list={ProductList}
+                recordRepresentation='name'
             />
         </Admin>
     </>

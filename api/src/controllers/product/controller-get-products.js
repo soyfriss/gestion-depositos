@@ -14,7 +14,8 @@ const getProducts = async (req, res, next) => {
                 through: {
                     attributes: []
                 }
-            }]
+            }],
+            distinct: true,
         };
 
         if (sort) {
@@ -23,19 +24,46 @@ const getProducts = async (req, res, next) => {
 
         if (filter && Object.keys(JSON.parse(filter)).length > 0) {
             const filterObj = JSON.parse(filter);
-            const idsCondition = filterObj.id ? { [Op.in]: filterObj.id } : { [Op.gt]: 0 };
-            const nameCondition = filterObj.name ? { [Op.iLike]: `${filterObj.name}%` } : { [Op.iLike]: '%' };
-            const statusCondition = filterObj.status ? { [Op.eq]: filterObj.status } : { [Op.in]: ['Active', 'Disabled'] };
-            options.where = { [Op.and]: [{ id: idsCondition }, { name: nameCondition }, { status: statusCondition }] };
+            const conditions = [];
+
+            if (filterObj.id) {
+                conditions.push({ id: { [Op.in]: filterObj.id } });
+            }
+            if (filterObj.name) {
+                conditions.push({ name: { [Op.iLike]: `${filterObj.name}%` } });
+            }
+            if (filterObj.status) {
+                conditions.push({ status: { [Op.eq]: filterObj.status } });
+            }
+
+            if (filterObj.categories) {
+                options.include[0].where = { id: { [Op.in]: filterObj.categories } };
+            }
+
+            options.where = { [Op.and]: conditions };
         }
 
         let products = await Product.findAndCountAll(options);
+
+        // Search again to get all categories from a product if there are category filters
+        if (options.include[0].where) {
+            const productIds = products.rows.map(p => p.id);
+    
+            options.where = { id: { [Op.in]: productIds } };
+            options.include = [{
+                model: Category,
+                through: {
+                    attributes: []
+                }
+            }];
+    
+            products = await Product.findAndCountAll(options);
+        }
 
         res.status(httpStatusCodes.OK).json(products);
     } catch (error) {
         next(error);
     }
-
 }
 
 module.exports = { getProducts };
