@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const { StatusType } = require('../utils/data-types');
 
 module.exports = (sequelize) => {
     sequelize.define('Employee', {
@@ -39,11 +40,11 @@ module.exports = (sequelize) => {
             field: 'FileNumber'
         },
         status: {
-            type: DataTypes.BOOLEAN,
+            type: StatusType, 
             allowNull: false,
-            defaultValue: true,
+            defaultValue: 'Active',
             field: 'Status'
-        },
+        }
     }, {
         timestamps: true,
         freezeTableName: true

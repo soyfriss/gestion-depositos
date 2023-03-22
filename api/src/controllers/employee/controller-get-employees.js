@@ -21,8 +21,9 @@ const getEmployees = async (req, res, next) => {
             const emailCondition = filterObj.email ? { [Op.iLike]: `${JSON.parse(filter).email}%` } : { [Op.iLike]: '%' };
             const phoneCondition = filterObj.phone ? { [Op.iLike]: `${JSON.parse(filter).phone}%` } : { [Op.iLike]: '%' };
             const fileNumberCondition = filterObj.fileNumber ? { [Op.iLike]: `${JSON.parse(filter).fileNumber}%` } : { [Op.iLike]: '%' };
+            const statusCondition = filterObj.status ? { [Op.eq]: filterObj.status } : { [Op.in]: ['Active', 'Disabled'] };
 
-            options.where = { [Op.and]: [{ firstname: firstNameCondition }, { lastname: lastNameCondition }, { email: emailCondition }, { phone: phoneCondition }, { filenumber: fileNumberCondition }]};
+            options.where = { [Op.and]: [{ firstname: firstNameCondition }, { lastname: lastNameCondition }, { email: emailCondition }, { phone: phoneCondition }, { filenumber: fileNumberCondition }, { status: statusCondition }]};
         }
     
         let employees = await Employee.findAndCountAll(options);

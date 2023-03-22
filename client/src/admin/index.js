@@ -3,6 +3,9 @@ import { dataProvider } from './data-provider';
 import { CategoryList } from './category/category-list';
 import { CategoryEdit } from './category/category-edit';
 import { CategoryCreate } from './category/category-create';
+import { EmployeeList } from './employee/employee-list';
+import { EmployeeEdit } from './employee/employee-edit';
+import { EmployeeCreate } from './employee/employee-create';
 import { ProductList } from './product/product-list';
 
 function App() {
@@ -14,6 +17,13 @@ function App() {
                 edit={CategoryEdit}
                 create={CategoryCreate}
                 recordRepresentation='name'
+            />
+            <Resource
+                name='employees'
+                list={EmployeeList}
+                edit={EmployeeEdit}
+                create={EmployeeCreate}
+                recordRepresentation='filenumber'
             />
             <Resource
                 name='products'
