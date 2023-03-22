@@ -10,7 +10,7 @@ const employeeFilters = [
 export const EmployeeList = () => (
     <List filters={employeeFilters} sort={{ field: 'lastname', order: 'ASC' }}>
         <Datagrid rowClick="edit" bulkActionButtons={false}>
-            <FunctionField label="Last name & First name" render={employee => `${employee.lastname}, ${employee.firstname}`} />;
+            <FunctionField label="Full name" sortBy='lastname' render={employee => `${employee.lastname}, ${employee.firstname}`} />;
             <TextField label="Email" source="email" />
             <TextField label="Phone" source="phone" />
             <TextField label="File Number" source="filenumber" />
