@@ -69,14 +69,12 @@ module.exports = async () => {
         {
             username: 'nrotili',
             password: '123456789',
-            email: 'nrotili@villaconstitucion.gov.ar',
-            role: 'admin',
+            role: 'Admin',
         },
         {
             username: 'frissone',
             password: '123456789',
-            email: 'frissone@villaconstitucion.gov.ar',
-            role: 'admin',
+            role: 'Admin',
         },
     ]
 
