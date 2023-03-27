@@ -1,4 +1,4 @@
-const { Category, Employee, Product, CategoryProduct } = require('../db');
+const { Category, Employee, Product, CategoryProduct, User } = require('../db');
 
 module.exports = async () => {
     // Categories
@@ -63,4 +63,20 @@ module.exports = async () => {
     ]
 
     await CategoryProduct.bulkCreate(categoryProduct);
+
+    // Users
+    const users = [
+        {
+            username: 'nrotili',
+            password: '123456789',
+            role: 'Admin',
+        },
+        {
+            username: 'frissone',
+            password: '123456789',
+            role: 'Admin',
+        },
+    ]
+
+    await User.bulkCreate(users);
 }
