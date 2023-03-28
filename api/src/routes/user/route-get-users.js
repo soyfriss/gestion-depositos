@@ -1,5 +1,5 @@
 const { Router } = require('express');
 const { getUsers } = require('../../controllers/user/controller-get-users');
 
-// GET /categories/{id}
+// GET /users/{id}
 module.exports = Router().get('/', getUsers);
