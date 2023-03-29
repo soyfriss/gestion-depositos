@@ -1,0 +1,61 @@
+const { body } = require('express-validator');
+const constants = require('../../utils/constants');
+const { isProductDuplicated } = require('./is-product-duplicated');
+
+const validationRules = () => {
+    return [
+        body('name')
+            .trim()
+            .notEmpty().withMessage(constants.FIELD_REQUIRED)
+            .bail()
+            .isLength({ max: 255 }).withMessage(constants.MAX_LENGTH_EXCEEDED)
+            .bail()
+            .custom(async (value, { req }) => {
+                if (await isProductDuplicated(value, req.params.id)) {
+                    return Promise.reject(constants.DUPLICATED_NAME)
+                }
+            })
+            .bail(),
+        body('description')
+            .trim()
+            .isLength({ max: 500 }).withMessage(constants.MAX_LENGTH_EXCEEDED)
+            .bail(),
+        body('categories')
+            .not().isArray().withMessage(constants.INVALID_DATA)
+            .bail()
+            .custom(async (value, { req }) => {
+                // Check if categories exist
+                for (const categoryId of value) {
+                    // category type
+                    if (typeof categoryId !== 'number') {
+                        return {
+                            errors: {
+                                categories: constants.INVALID_ITEM_IN_LIST
+                            }
+                        };
+                    }
+                    // Empty category
+                    if (!categoryId) {
+                        return {
+                            errors: {
+                                categories: constants.EMPTY_ITEM_IN_LIST
+                            }
+                        };
+                    }
+                    // Verify if temperament exists
+                    const categoryInDB = await getCategory(categoryId);
+                    console.log('categoryInDB: ', categoryInDB);
+
+                    if (!categoryInDB) {
+                        return {
+                            errors: {
+                                categories: `${categoryId}: ${constants.ITEM_NOT_IN_LIST}`
+                            }
+                        };
+                    }
+                }
+            })
+    ]
+}
+
+module.exports = validationRules;
