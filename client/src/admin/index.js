@@ -7,6 +7,7 @@ import { EmployeeList } from './employee/employee-list';
 import { EmployeeEdit } from './employee/employee-edit';
 import { EmployeeCreate } from './employee/employee-create';
 import { ProductList } from './product/product-list';
+import { ProductCreate } from './product/product-create';
 
 function App() {
     return <>
@@ -28,6 +29,7 @@ function App() {
             <Resource
                 name='products'
                 list={ProductList}
+                create={ProductCreate}
                 recordRepresentation='name'
             />
         </Admin>

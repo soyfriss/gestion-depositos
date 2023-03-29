@@ -25,7 +25,7 @@ export const ProductList = () => (
         <Datagrid rowClick="edit" bulkActionButtons={false}>
             <TextField source="name" />
             <NumberField source="stock" />
-            <ArrayField source="Categories">
+            <ArrayField source="Categories" sortable={false}>
                 <SingleFieldList>
                     <ChipField source="name" />
                 </SingleFieldList>
