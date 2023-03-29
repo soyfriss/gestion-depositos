@@ -14,7 +14,8 @@ const constants = {
     MAX_LENGTH_EXCEEDED: 'The maximum length of the field has been exceeded',
     DUPLICATED_NAME: 'The name already exists',
     DUPLICATED_FILENUMBER: 'The file number already exists',
-    EMAIL_NOTIFICATION_ERROR: 'Email notification error'
+    EMAIL_NOTIFICATION_ERROR: 'Email notification error',
+    INVALID_PASSWORD: 'The password must contains 6 characters. At least 1 numbers, at least 1 symbols, at least 1 uppercase and at least 1 lowercase letters.'
 }
 
 module.exports = constants;
