@@ -36,7 +36,7 @@ export const ProductForm = () => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <ReferenceArrayInput required reference="categories" source="categories">
+                <ReferenceArrayInput required reference="categories" source="Categories">
                     <SelectArrayInput
                         optionText="name"
                         fullWidth
