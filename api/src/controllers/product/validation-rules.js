@@ -1,6 +1,7 @@
 const { body } = require('express-validator');
 const constants = require('../../utils/constants');
 const { isProductDuplicated } = require('./is-product-duplicated');
+const { Category } = require('../../db');
 
 const validationRules = () => {
     return [
@@ -21,10 +22,16 @@ const validationRules = () => {
             .isLength({ max: 500 }).withMessage(constants.MAX_LENGTH_EXCEEDED)
             .bail(),
         body('categories')
-            .not().isArray().withMessage(constants.INVALID_DATA)
-            .bail()
-            .custom(async (value, { req }) => {
-                // Check if categories exist
+            .custom(async (value) => {
+                // Check type
+                if (!Array.isArray(value)) {
+                    return {
+                        errors: {
+                            categories: constants.INCORRECT_TYPE
+                        }
+                    }
+                }
+                // Check each category
                 for (const categoryId of value) {
                     // category type
                     if (typeof categoryId !== 'number') {
@@ -43,7 +50,7 @@ const validationRules = () => {
                         };
                     }
                     // Verify if temperament exists
-                    const categoryInDB = await getCategory(categoryId);
+                    const categoryInDB = await Category.findByPk(categoryId)
                     console.log('categoryInDB: ', categoryInDB);
 
                     if (!categoryInDB) {
