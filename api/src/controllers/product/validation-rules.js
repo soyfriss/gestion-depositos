@@ -25,40 +25,24 @@ const validationRules = () => {
             .custom(async (value) => {
                 // Check type
                 if (!Array.isArray(value)) {
-                    return {
-                        errors: {
-                            categories: constants.INCORRECT_TYPE
-                        }
-                    }
+                    return Promise.reject(constants.INCORRECT_TYPE);
                 }
                 // Check each category
                 for (const categoryId of value) {
                     // category type
                     if (typeof categoryId !== 'number') {
-                        return {
-                            errors: {
-                                categories: constants.INVALID_ITEM_IN_LIST
-                            }
-                        };
+                        return Promise.reject(constants.INVALID_ITEM_IN_LIST);
                     }
                     // Empty category
                     if (!categoryId) {
-                        return {
-                            errors: {
-                                categories: constants.EMPTY_ITEM_IN_LIST
-                            }
-                        };
+                        return Promise.reject(constants.EMPTY_ITEM_IN_LIST);
                     }
                     // Verify if temperament exists
                     const categoryInDB = await Category.findByPk(categoryId)
                     console.log('categoryInDB: ', categoryInDB);
 
                     if (!categoryInDB) {
-                        return {
-                            errors: {
-                                categories: `${categoryId}: ${constants.ITEM_NOT_IN_LIST}`
-                            }
-                        };
+                        return Promise.reject(`${categoryId}: ${constants.ITEM_NOT_IN_LIST}`);
                     }
                 }
             })
