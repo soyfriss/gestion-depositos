@@ -9,6 +9,9 @@ import { EmployeeCreate } from './employee/employee-create';
 import { ProductList } from './product/product-list';
 import { ProductCreate } from './product/product-create';
 import { ProductEdit } from './product/product-edit';
+import { UserList } from './user/user-list';
+import { UserCreate } from './user/user-create';
+import { UserEdit } from './user/user-edit';
 
 function App() {
     return <>
@@ -33,6 +36,13 @@ function App() {
                 create={ProductCreate}
                 edit={ProductEdit}
                 recordRepresentation='name'
+            />
+            <Resource
+                name='users'
+                list={UserList}
+                create={UserCreate}
+                edit={UserEdit}
+                recordRepresentation='username'
             />
         </Admin>
     </>
