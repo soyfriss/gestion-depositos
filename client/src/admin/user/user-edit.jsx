@@ -11,7 +11,11 @@ export const UserEdit = () => {
     const save = useCallback(
         async values => {
             try {
-                console.log(values);
+                if (values.passwordEdit !== undefined) {
+                    values.password = values.passwordEdit;
+                } else {
+                    delete values.password;
+                }
                 const editedUser = await update(
                     'users',
                     { id: values.id, data: values },
