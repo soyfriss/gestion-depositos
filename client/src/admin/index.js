@@ -12,6 +12,8 @@ import { ProductEdit } from './product/product-edit';
 import { UserList } from './user/user-list';
 import { UserCreate } from './user/user-create';
 import { UserEdit } from './user/user-edit';
+import { DeliveryNoteList } from './delivery-note/delivery-note-list';
+import { DeliveryNoteCreate } from './delivery-note/delivery-note-create';
 
 function App() {
     return <>
@@ -43,6 +45,13 @@ function App() {
                 create={UserCreate}
                 edit={UserEdit}
                 recordRepresentation='username'
+            />
+            <Resource
+                name='delivery-notes'
+                list={DeliveryNoteList}
+                create={DeliveryNoteCreate}
+                recordRepresentation={(record) => `N° ${record.documentNumber}`}
+                options={{ label: 'Delivery Notes' }}
             />
         </Admin>
     </>
