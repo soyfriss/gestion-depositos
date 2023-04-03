@@ -44,6 +44,12 @@ module.exports = (sequelize) => {
             allowNull: false,
             defaultValue: 'Active',
             field: 'Status'
+        },
+        fullName: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                return `${this.filenumber} - ${this.firstname} ${this.lastname}`;
+            }
         }
     }, {
         timestamps: true,

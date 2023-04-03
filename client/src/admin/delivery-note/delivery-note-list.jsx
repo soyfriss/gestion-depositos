@@ -42,6 +42,11 @@ export const DeliveryNoteList = () => (
         <Datagrid rowClick="edit" bulkActionButtons={false}>
             <DateField source="documentDate" />
             <TextField source="documentNumber" />
+            <FunctionField 
+                label="File Number"
+                sortBy="fileNumber"
+                render={document => document.Employee.filenumber}
+            />
             <FunctionField
                 label="Employee"
                 sortBy="lastname"

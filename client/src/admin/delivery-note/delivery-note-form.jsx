@@ -19,6 +19,7 @@ export const DeliveryNoteForm = () => {
                     fullWidth
                     label="Date"
                     defaultValue={new Date()}
+                    
                     source="documentDate"
                     autoFocus
                 />
@@ -33,6 +34,7 @@ export const DeliveryNoteForm = () => {
                         label="File number"
                         validate={required()}
                         filterToQuery={searchText => ({ fileNumber: searchText })}
+                        optionText="fullName"
                     />
 
                 </ReferenceInput>
@@ -46,7 +48,7 @@ export const DeliveryNoteForm = () => {
                     >
                         <ReferenceInput
                             source="productId"
-                            reference="products"
+                            reference="products"    // TODO: create a list of available products
                         >
                             <AutocompleteInput
                                 label="Product"

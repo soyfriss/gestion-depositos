@@ -9,7 +9,7 @@ const createDeliveryNote = async (req, res, next) => {
             const deliveryNote = await DeliveryNote.create({
                 employeeId,
                 documentDate,
-                documentNumber: 6,  // TODO: generate document number
+                documentNumber: await DeliveryNote.max('documentNumber') + 1,
                 employeeSign: 'sign',
                 status: 'Completed'
             }, { transaction });

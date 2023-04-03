@@ -12,7 +12,7 @@ const getDeliveryNotes = async (req, res, next) => {
             include: [
                 {
                     model: Employee,
-                    attributes: ['id', 'firstname', 'lastname']
+                    attributes: ['id', 'firstname', 'lastname', 'filenumber']
                 }
             ]
         }
