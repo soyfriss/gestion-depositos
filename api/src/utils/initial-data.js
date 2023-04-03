@@ -1,4 +1,4 @@
-const { Category, Employee, Product, CategoryProduct, User } = require('../db');
+const { Category, Employee, Product, CategoryProduct, User, ProductPhoto } = require('../db');
 
 module.exports = async () => {
     // Categories
@@ -63,6 +63,20 @@ module.exports = async () => {
     ]
 
     await CategoryProduct.bulkCreate(categoryProduct);
+
+    // Product photos
+    const productPhoto = [
+        {
+            productId: 1,
+            path: '1-1.jpeg'
+        },
+        {
+            productId: 2,
+            path: '2-2.jpeg'
+        }
+    ]
+
+    await ProductPhoto.bulkCreate(productPhoto);
 
     // Users
     const users = [

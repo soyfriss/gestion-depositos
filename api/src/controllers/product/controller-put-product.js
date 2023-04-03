@@ -1,34 +1,34 @@
 const { Product, conn } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
 const constants = require('../../utils/constants');
+const updateCategories = require('./update-categories');
+const updatePhotos = require('./update-photos');
 
 const editProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { name, description, stock, status, categories } = req.body;
+        const { name, description, stock, status, categories, ProductPhotos } = req.body;
 
         await conn.transaction(async (t) => {
             const product = await Product.findByPk(id, { transaction: t });
-            const productCategories = await product.getCategories({ transaction: t });
-
+            
             if (!product) {
                 res.status(httpStatusCodes.BAD_REQUEST).json({ error: constants.ITEM_NOT_FOUND });
             }
-
+            
             await product.update({
                 name,
                 description,
                 stock,
                 status
             },
-                { transaction: t }
+            { transaction: t }
             );
-
-            // Edit categories
-            await product.removeCategories(productCategories, { transaction: t });
-            if (categories && categories.length) {
-                await product.addCategories(categories, { transaction: t });
-            }
+            
+            // Categories
+            await updateCategories(product, categories, t);
+            // Photos
+            await updatePhotos(product, ProductPhotos, t);
 
             res.status(httpStatusCodes.OK).json(product);
         });

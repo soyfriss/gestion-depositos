@@ -1,5 +1,11 @@
-const { Product, Category } = require('../../db');
+const { Product, Category, ProductPhoto } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
+require('dotenv').config();
+const {
+    IMAGE_URL
+} = process.env;
+
+const imageUrl = process.env.IMAGE_PATH;
 
 const getProduct = async (req, res, next) => {
     try {
@@ -12,6 +18,9 @@ const getProduct = async (req, res, next) => {
                     model: Category,
                     attributes: ['id'],
                     through: { attributes: [] }
+                }, {
+                    model: ProductPhoto,
+                    attributes: ['path']
                 }]
             }
         );
@@ -24,7 +33,14 @@ const getProduct = async (req, res, next) => {
             status: product.status,
             createdAt: product.createdAt,
             updatedAt: product.updatedAt,
-            categories: product.Categories.map(c => c.id)
+            categories: product.Categories.map(c => c.id),
+            ProductPhotos: product.ProductPhotos.map(p => {
+                return {
+                    id: p.id,
+                    title: p.path,
+                    src: IMAGE_URL + p.path
+                }
+            })
         });
     } catch (error) {
         next(error);

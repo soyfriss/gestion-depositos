@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Product, Category } = require('../../db');
+const { Product, Category, ProductPhoto } = require('../../db');
 const { getPagination } = require('../../utils/utils');
 const httpStatusCodes = require('../../utils/http-status-codes');
 
@@ -14,6 +14,8 @@ const getProducts = async (req, res, next) => {
                 through: {
                     attributes: []
                 }
+            }, {
+                model: ProductPhoto
             }],
             distinct: true,
         };
@@ -48,15 +50,17 @@ const getProducts = async (req, res, next) => {
         // Search again to get all categories from a product if there are category filters
         if (options.include[0].where) {
             const productIds = products.rows.map(p => p.id);
-    
+
             options.where = { id: { [Op.in]: productIds } };
             options.include = [{
                 model: Category,
                 through: {
                     attributes: []
                 }
+            }, {
+                model: ProductPhoto
             }];
-    
+
             products = await Product.findAndCountAll(options);
         }
 
