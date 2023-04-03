@@ -5,11 +5,22 @@ import {
     TextInput,
     SelectInput,
     NumberField,
+    ImageField,
     ArrayField,
     SingleFieldList,
     ChipField,
     ReferenceArrayInput,
 } from "react-admin";
+
+const PhotosPanel = () => {
+    return (
+        <ImageField
+            source="ProductPhotos"
+            src="src"
+            sx={{ '& .RaImageField-image': { width: '20em', height: '20em', objectFit: 'contain' } }}
+        />
+    );
+};
 
 const productFilters = [
     <TextInput source="name" label="Search" alwaysOn />,
@@ -22,7 +33,7 @@ const productFilters = [
 
 export const ProductList = () => (
     <List filters={productFilters} sort={{ field: 'name', order: 'ASC' }}>
-        <Datagrid rowClick="edit" bulkActionButtons={false}>
+        <Datagrid rowClick="edit" bulkActionButtons={false} expand={<PhotosPanel />}>
             <TextField source="name" />
             <NumberField source="stock" />
             <ArrayField source="Categories" sortable={false}>

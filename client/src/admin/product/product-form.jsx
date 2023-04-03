@@ -1,4 +1,4 @@
-import { TextInput, SelectInput, ReferenceArrayInput, SelectArrayInput } from "react-admin";
+import { TextInput, SelectInput, ReferenceArrayInput, SelectArrayInput, ImageInput, ImageField } from "react-admin";
 import { Grid } from '@mui/material'
 
 export const ProductForm = () => {
@@ -23,14 +23,14 @@ export const ProductForm = () => {
                     defaultValue="Active"
                     choices={[
                         { id: "Active", name: "Active" },
-                        { id: "Active", name: "Active" }
+                        { id: "Disable", name: "Disable" }
                     ]}
                 />
             </Grid>
             <Grid item xs={12}>
                 <TextInput
                     fullWidth
-                    multiline
+                    // multiline
                     label="Description"
                     source="description"
                 />
@@ -42,6 +42,11 @@ export const ProductForm = () => {
                         fullWidth
                     />
                 </ReferenceArrayInput>
+            </Grid>
+            <Grid item xs={12}>
+                <ImageInput source="ProductPhotos" label="Photos" multiple>
+                    <ImageField source="src" title="title" />
+                </ImageInput>
             </Grid>
         </Grid>
     </>;

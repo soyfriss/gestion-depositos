@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { Edit, SimpleForm, useRedirect, useNotify, useUpdate } from 'react-admin';
 import EditToolbar from '../components/EditToolbar';
 import { ProductForm } from './product-form';
+import { handlePhotoUploads } from '../handle-photo-uploads';
 
 export const ProductEdit = () => {
     const redirect = useRedirect();
@@ -11,6 +12,9 @@ export const ProductEdit = () => {
     const save = useCallback(
         async values => {
             try {
+                // Handle photo uploads
+                values.ProductPhotos = await handlePhotoUploads(values.ProductPhotos)
+
                 const editedProduct = await update(
                     'products',
                     { id: values.id, data: values },

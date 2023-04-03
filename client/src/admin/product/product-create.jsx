@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Create, SimpleForm, useRedirect, useNotify, useCreate } from 'react-admin';
 import { ProductForm } from './product-form';
+import { handlePhotoUploads } from '../handle-photo-uploads';
 
 export const ProductCreate = () => {
     const redirect = useRedirect();
@@ -10,6 +11,8 @@ export const ProductCreate = () => {
     const save = useCallback(
         async values => {
             try {
+                values.ProductPhotos = await handlePhotoUploads(values.ProductPhotos)
+
                 const createdProduct = await create(
                     'products',
                     { data: values },
