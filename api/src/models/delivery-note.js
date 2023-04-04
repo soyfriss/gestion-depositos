@@ -29,9 +29,8 @@ module.exports = (sequelize) => {
             field: 'EmployeeSign'
         },
         status: {
-            type: DataTypes.ENUM('Created', 'Processing', 'Canceled', 'Completed'),
+            type: DataTypes.ENUM('Completed', 'Canceled'),
             allowNull: false,
-            defaultValue: 'Created',
             field: 'Status'
         }
     }, {

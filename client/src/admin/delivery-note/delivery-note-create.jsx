@@ -10,6 +10,7 @@ export const DeliveryNoteCreate = () => {
     const save = useCallback(
         async values => {
             try {
+                values.status = 'Completed';
                 const createdDeliveryNote = await create(
                     'delivery-notes',
                     { data: values },

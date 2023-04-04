@@ -44,6 +44,7 @@ module.exports = async () => {
         {
             name: 'Toner 226A',
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+            stock: 10   // To test Delivery Notes
         },
         {
             name: 'mouse USB',
@@ -136,7 +137,7 @@ module.exports = async () => {
             documentDate: '2023-04-01',
             documentNumber: 5,
             employeeSign: 'asdfasdf',
-            status: 'Processing'
+            status: 'Canceled'
         },
     ]
 

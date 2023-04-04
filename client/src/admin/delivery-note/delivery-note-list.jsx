@@ -28,8 +28,6 @@ const deliveryNoteFilters = [
     // </ReferenceInput>,
     <NumberInput source="documentNumber" alwaysOn />,
     <SelectInput source="status" label="Status" choices={[
-        { id: "Created", name: "Created" },
-        { id: "Processing", name: "Processing" },
         { id: "Canceled", name: "Canceled" },
         { id: "Completed", name: "Completed" },
     ]} alwaysOn />,

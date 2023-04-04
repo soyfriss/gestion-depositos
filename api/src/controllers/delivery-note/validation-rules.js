@@ -15,7 +15,7 @@ const validationRules = () => {
                     return Promise.reject(constants.INVALID_DATA);
                 }
 
-                // TODO: Validate that this date is greater than or equal to the last document
+                // TODO: Validate that this date is greater than or equal to the lastest document
             })
             .bail(),
         body('employeeId')
@@ -42,24 +42,52 @@ const validationRules = () => {
                     return Promise.reject(constants.FIELD_REQUIRED);
                 }
                 // Check each product and quantity
+                const itemsErrors = [];
+                let itemNro = 1;
                 for (const item of items) {
                     // Product Id type
                     if (typeof item.productId !== 'number') {
-                        return Promise.reject(constants.INVALID_ITEM_IN_LIST);
+                        itemsErrors.push({
+                            itemNro,
+                            productId: constants.INVALID_ITEM_IN_LIST
+                        });
+                        return Promise.reject(itemsErrors);
                     }
                     // Check if product exists
                     const product = await Product.findByPk(item.productId);
                     if (!product) {
-                        return Promise.reject(`${item.productId}: ${constants.ITEM_NOT_IN_LIST}`)
+                        itemsErrors.push({
+                            itemNro,
+                            productId: constants.ITEM_NOT_IN_LIST
+                        });
+                        return Promise.reject(itemsErrors);
                     }
-
                     // Quantity
                     if (typeof item.quantity !== 'number') {
-                        return Promise.reject(constants.INVALID_ITEM_IN_LIST);
+                        itemsErrors.push({
+                            itemNro,
+                            productId: constants.INVALID_ITEM_IN_LIST
+                        });
+                        return Promise.reject(itemsErrors);
                     }
                     if (item.quantity <= 0) {
-                        return Promise.reject(constants.INVALID_DATA);
+                        itemsErrors.push({
+                            itemNro,
+                            quantity: constants.INVALID_DATA
+                        });
+                        return Promise.reject(itemsErrors);
                     }
+                    // Check stock
+                    if ((product.stock - item.quantity) < 0) {
+                        itemsErrors.push({
+                            itemNro,
+                            quantity: constants.INSUFFICIENT_STOCK
+                        });
+                        return Promise.reject(itemsErrors);
+                    }
+
+                    itemsErrors.push({});
+                    itemNro++;
                 }
             })
     ];

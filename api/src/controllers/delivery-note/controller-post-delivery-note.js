@@ -1,5 +1,6 @@
 const { DeliveryNote, DeliveryNoteItem, conn } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
+const updateStock = require('../stock/update-stock');
 
 const createDeliveryNote = async (req, res, next) => {
     try {
@@ -19,7 +20,10 @@ const createDeliveryNote = async (req, res, next) => {
                     deliveryNoteId: deliveryNote.id,
                     productId: item.productId,
                     quantity: item.quantity
-                }, { transaction })
+                }, { transaction });
+
+                // Update stock
+                await updateStock(item.productId, -item.quantity, transaction);
             }
 
             return res.status(httpStatusCodes.OK).json(deliveryNote);

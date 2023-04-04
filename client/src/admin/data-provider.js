@@ -16,11 +16,15 @@ export const dataProvider = {
     getList: (resource, params) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
+        let moreFilters = {};
+        if (params.meta && params.meta.moreFilters) {
+            moreFilters = params.meta.moreFilters;
+        }
         const query = {
             sort: JSON.stringify([field, order]),
             page: page - 1,
             size: perPage,
-            filter: JSON.stringify(params.filter),
+            filter: JSON.stringify({ ...params.filter, ...moreFilters }),
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
         return httpClient(url, { headers: createHeaders() }).then(({ json }) => ({

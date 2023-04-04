@@ -48,7 +48,9 @@ export const DeliveryNoteForm = () => {
                     >
                         <ReferenceInput
                             source="productId"
-                            reference="products"    // TODO: create a list of available products
+                            reference="products"
+                            // I disabled the queryOptions to test delivery notes validations
+                            // queryOptions={{ meta: { moreFilters: { status: 'Active', stock_gte: 1 } } }}
                         >
                             <AutocompleteInput
                                 label="Product"
