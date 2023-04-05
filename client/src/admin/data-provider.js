@@ -5,10 +5,12 @@ const apiUrl = process.env.REACT_APP_BASE_URL;
 const httpClient = fetchUtils.fetchJson;
 
 const createHeaders = () => {
+    const token = localStorage.getItem('token');
+    console.log(token);
     const headers = new Headers({
         Accept: 'application/json',
+        Authorization: `Bearer ${token}`
     });
-
     return headers;
 }
 
