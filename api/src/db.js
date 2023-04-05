@@ -36,7 +36,7 @@ let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Product, Category, CategoryProduct, ProductPhoto } = sequelize.models;
+const { Product, Category, CategoryProduct, ProductPhoto, Employee, DeliveryNote, DeliveryNoteItem } = sequelize.models;
 
 // Associations
 // Product <--> Category
@@ -46,6 +46,18 @@ Category.belongsToMany(Product, { through: CategoryProduct });
 // Product <--> Photo
 Product.hasMany(ProductPhoto);
 ProductPhoto.belongsTo(Product);
+
+// DeliveryNote <--> Employee
+Employee.hasMany(DeliveryNote);
+DeliveryNote.belongsTo(Employee);
+
+// DeliveryNote <--> DeliveryNoteItem
+DeliveryNote.hasMany(DeliveryNoteItem);
+DeliveryNoteItem.belongsTo(DeliveryNote);
+
+// DeliveryNoteItem <--> Product
+Product.hasMany(DeliveryNoteItem);
+DeliveryNoteItem.belongsTo(Product);
 
 module.exports = {
   ...sequelize.models,
