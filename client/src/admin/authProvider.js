@@ -21,10 +21,10 @@ const authProvider = {
       });
   },
 
-  // logout: () => {
-  //   localStorage.removeItem('token');
-  //   return Promise.resolve();
-  // },
+  logout: () => {
+    localStorage.removeItem('token');
+    return Promise.resolve();
+  },
 
   checkError: ({ status }) => {
     if (status === 401 || status === 403) {
