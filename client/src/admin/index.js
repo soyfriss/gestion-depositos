@@ -1,5 +1,6 @@
 import { Admin, Resource } from 'react-admin';
 import { dataProvider } from './data-provider';
+import  authProvider  from './authProvider';
 import { CategoryList } from './category/category-list';
 import { CategoryEdit } from './category/category-edit';
 import { CategoryCreate } from './category/category-create';
@@ -18,7 +19,7 @@ import { DeliveryNoteEdit } from './delivery-note/delivery-note-edit';
 
 function App() {
     return <>
-        <Admin dataProvider={dataProvider}>
+        <Admin dataProvider={dataProvider} authProvider={authProvider}>
             <Resource
                 name='categories'
                 list={CategoryList}

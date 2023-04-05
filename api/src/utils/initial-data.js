@@ -90,12 +90,12 @@ module.exports = async () => {
     const users = [
         {
             username: 'nrotili',
-            password: '123456789',
+            password: '$2b$10$wXlcLjx9c6/5XoiPsv1R6uqVlU4r9Q9kwFGJi.TJtLIDwGOzW1r0e',
             role: 'Admin',
         },
         {
             username: 'frissone',
-            password: '123456789',
+            password: '$2b$10$wXlcLjx9c6/5XoiPsv1R6uqVlU4r9Q9kwFGJi.TJtLIDwGOzW1r0e',
             role: 'Admin',
         },
     ]
