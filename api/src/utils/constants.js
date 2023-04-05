@@ -6,6 +6,7 @@ const constants = {
     ITEM_NOT_FOUND: "Item not found",
     INVALID_DATA: 'Field has invalid data',
     INVALID_STOCK: 'Stock value must be equal or greater than 0',
+    INSUFFICIENT_STOCK: 'Insufficient stock',
     INVALID_PRICE: 'Price value must be greater than 0',
     INVALID_ORDER_STATUS_CHANGE: 'The status is invalid',
     VALIDATION_ERRORS: 'Validation errors',
