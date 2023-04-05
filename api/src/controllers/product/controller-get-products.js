@@ -6,7 +6,7 @@ const httpStatusCodes = require('../../utils/http-status-codes');
 const getProducts = async (req, res, next) => {
     try {
         const { page, size, sort, filter } = req.query;
-
+        console.log('controller-get-products filter', filter);
         const options = {
             ...getPagination(page, size),
             include: [{
@@ -36,6 +36,9 @@ const getProducts = async (req, res, next) => {
             }
             if (filterObj.status) {
                 conditions.push({ status: { [Op.eq]: filterObj.status } });
+            }
+            if (filterObj.stock_gte) {
+                conditions.push({ stock: { [Op.gte]: filterObj.stock_gte } });
             }
 
             if (filterObj.categories) {
