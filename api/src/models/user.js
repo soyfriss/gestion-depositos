@@ -32,6 +32,11 @@ module.exports = (sequelize) => {
             allowNull: false,
             defaultValue: 'Active',
             field: 'Status'
+        },
+        token: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            field: 'Token'
         }
     }, {
         timestamps: true,
