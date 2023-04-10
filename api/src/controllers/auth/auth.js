@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const passport = require('../../config/passport');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Iniciar sesión de usuario
 const loginUser = (req, res, next) => {
