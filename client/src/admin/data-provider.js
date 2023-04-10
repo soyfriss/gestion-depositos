@@ -6,7 +6,6 @@ const httpClient = fetchUtils.fetchJson;
 
 const createHeaders = () => {
     const token = localStorage.getItem('token');
-    console.log(token);
     const headers = new Headers({
         Accept: 'application/json',
         Authorization: `Bearer ${token}`
