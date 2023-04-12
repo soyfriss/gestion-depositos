@@ -1,0 +1,49 @@
+import { TextInput, SelectInput } from 'react-admin';
+import { Grid } from '@mui/material';
+
+export const SupplierForm = () => {
+    return <>
+        <Grid container columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
+            <Grid item xs={12} md={4} sm={12}   >
+                <TextInput
+                    required
+                    fullWidth
+                    label="Name"
+                    source="name"
+                    autoFocus
+                />
+            </Grid>
+            <Grid item xs={12} md={4} sm={12}>
+                <TextInput
+                    required
+                    fullWidth
+                    label="Email Address"
+                    source="email"
+                    type='email'
+                />
+            </Grid>
+            <Grid item xs={12} md={4} sm={12}>
+                <TextInput
+                    required
+                    fullWidth
+                    label="Phone"
+                    source="phone"
+                />
+            </Grid>
+            <Grid item xs={12} md={4} sm={12}>
+                <SelectInput
+                    source="status"
+                    label="Status"
+                    optionValue="name"
+                    defaultValue={"Active"}
+                    choices={[
+                        { id: "Active", name: "Active" },
+                        { id: "Disabled", name: "Disabled" }
+                    ]}
+                    required
+                    fullWidth
+                />
+            </Grid>
+        </Grid>
+    </>
+}

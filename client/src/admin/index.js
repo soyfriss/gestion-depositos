@@ -16,6 +16,9 @@ import { UserEdit } from './user/user-edit';
 import { DeliveryNoteList } from './delivery-note/delivery-note-list';
 import { DeliveryNoteCreate } from './delivery-note/delivery-note-create';
 import { DeliveryNoteEdit } from './delivery-note/delivery-note-edit';
+import { SupplierList } from './supplier/supplier-list';
+import { SupplierCreate } from './supplier/supplier-create';
+import { SupplierEdit } from './supplier/supplier-edit';
 
 function App() {
     return <>
@@ -33,6 +36,13 @@ function App() {
                 edit={EmployeeEdit}
                 create={EmployeeCreate}
                 recordRepresentation='filenumber'
+            />
+            <Resource
+                name='suppliers'
+                list={SupplierList}
+                edit={SupplierEdit}
+                create={SupplierCreate}
+                recordRepresentation='name'
             />
             <Resource
                 name='products'
