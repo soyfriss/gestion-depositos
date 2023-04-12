@@ -1,4 +1,4 @@
-const { Category, Employee, Product, CategoryProduct, User, ProductPhoto, DeliveryNote } = require('../db');
+const { Category, Employee, Product, CategoryProduct, User, ProductPhoto, DeliveryNote, Supplier } = require('../db');
 
 module.exports = async () => {
     // Categories
@@ -142,4 +142,14 @@ module.exports = async () => {
     ]
 
     await DeliveryNote.bulkCreate(deliveryNotes);
+
+    const suppliers = [
+        {
+            name: 'Cluster',
+            email: 'cluster@cluster.com',
+            phone: '03400123456'
+        }
+    ]
+
+    await Supplier.bulkCreate(suppliers);
 }
