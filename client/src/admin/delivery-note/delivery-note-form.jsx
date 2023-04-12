@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   NumberInput,
   AutocompleteInput,
@@ -8,14 +7,14 @@ import {
   ReferenceInput,
   required,
   minValue,
-  Labeled,
+  useInput
 } from 'react-admin';
-import { Grid, Button, Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import Signature from '../components/signature';
+import Typography from '@mui/material/Typography';
+import { FormHelperText } from '@mui/material';
 
-export const DeliveryNoteForm = () => {
-  const [signature, setSignature] = useState(null);
-
+export const DeliveryNoteForm = ({ setSignatureCanvas }) => {
   return (
     <>
       <Grid container columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
@@ -69,27 +68,32 @@ export const DeliveryNoteForm = () => {
             </SimpleFormIterator>
           </ArrayInput>
         </Grid>
-        <Grid item xs={12} sm={12} md={12} mt={2}>
-          <Box>
-            <span>Signature pad</span>
-          </Box>
-          <Signature saveSignature={setSignature} />
-          {signature ? (
-            <Labeled label="Signature saved">
-              <img
-                src={signature}
-                alt="signature"
-                style={{
-                  display: 'block',
-                  // border: '1px solid black',
-                  width: '150px',
-                  marginTop: '1em',
-                }}
-              />
-            </Labeled>
-          ) : null}
+        <Grid item xs={12} sm={12} md={6} mt={2}>
+          <SignatureInput source="employeeSign" setSignatureCanvas={setSignatureCanvas} />
         </Grid>
       </Grid>
     </>
   );
 };
+
+const SignatureInput = ({ source, setSignatureCanvas }) => {
+  const { id, field, fieldState } = useInput({ source });
+
+  return <>
+    <Box>
+      <Typography variant="caption" display="block" gutterBottom>
+        <FormHelperText error={fieldState.error ? true : false}>
+          Signature pad *
+        </FormHelperText>
+      </Typography>
+    </Box>
+    <Signature
+      id={id}
+      {...field}
+      setSignatureCanvas={setSignatureCanvas}
+    />
+    <FormHelperText error>
+      {fieldState.error && <span>{fieldState.error.message}</span>}
+    </FormHelperText>
+  </>
+}
