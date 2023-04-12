@@ -12,6 +12,7 @@ import {
   useRecordContext,
   Datagrid,
   SelectInput,
+  ImageField
 } from 'react-admin';
 import EditToolbarWithConfirmation from '../components/edit-toolbar-with-confirmation';
 import { Grid } from '@mui/material';
@@ -56,19 +57,24 @@ export const DeliveryNoteEdit = () => {
         }
       >
         <Grid container columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={3}>
             <Labeled>
               <DateField label="Date" source="documentDate" />
             </Labeled>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={3}>
             <Labeled>
               <TextField label="Delivery Note N°" source="documentNumber" />
             </Labeled>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={3}>
             <Labeled>
               <TextField label="Employee" source="Employee.fullName" />
+            </Labeled>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <Labeled>
+              <ImageField label="Signature" source="employeeSign" />
             </Labeled>
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
