@@ -89,9 +89,11 @@ const validationRules = () => {
                     itemsErrors.push({});
                     itemNro++;
                 }
-            })
+            }),
+        body('employeeSign')
+            .not().isEmpty().withMessage(constants.FIELD_REQUIRED)
+            .bail()
     ];
 }
 
 module.exports = validationRules;
-

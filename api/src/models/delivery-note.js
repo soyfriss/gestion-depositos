@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
             field: 'DocumentNumber'
         },
         employeeSign: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             field: 'EmployeeSign'
         },
         status: {
