@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const getPurchaseReceipts = require('./route-get-purchase-receipts');
 const getPurchaseReceipt = require('./route-get-purchase-receipt');
-const createPurchaseReceipt = require('./route-post-purchase-receipts');
+const createPurchaseReceipt = require('./route-post-purchase-receipt');
 const editPurchaseReceipt = require('./route-put-purchase-receipt');
 
 const router = Router();
