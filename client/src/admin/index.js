@@ -1,6 +1,6 @@
 import { Admin, Resource } from 'react-admin';
 import { dataProvider } from './data-provider';
-import  authProvider  from './authProvider';
+import authProvider from './authProvider';
 import { CategoryList } from './category/category-list';
 import { CategoryEdit } from './category/category-edit';
 import { CategoryCreate } from './category/category-create';
@@ -19,6 +19,9 @@ import { DeliveryNoteEdit } from './delivery-note/delivery-note-edit';
 import { SupplierList } from './supplier/supplier-list';
 import { SupplierCreate } from './supplier/supplier-create';
 import { SupplierEdit } from './supplier/supplier-edit';
+import { PurchaseReceiptList } from './purchase-receipt/purchase-receipt-list';
+import { PurchaseReceiptCreate } from './purchase-receipt/purchase-receipt-create';
+import { PurchaseReceiptEdit } from './purchase-receipt/purchase-receipt-edit';
 
 function App() {
     return <>
@@ -65,6 +68,14 @@ function App() {
                 edit={DeliveryNoteEdit}
                 recordRepresentation={(record) => `N° ${record.documentNumber}`}
                 options={{ label: 'Delivery Notes' }}
+            />
+            <Resource
+                name='purchase-receipts'
+                list={PurchaseReceiptList}
+                create={PurchaseReceiptCreate}
+                edit={PurchaseReceiptEdit}
+                recordRepresentation={(record) => `N° ${record.documentNumber}`}
+                options={{ label: 'Purchase Receipts' }}
             />
         </Admin>
     </>
