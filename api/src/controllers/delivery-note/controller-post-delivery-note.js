@@ -5,13 +5,14 @@ const Status = require('./status-enum');
 
 const createDeliveryNote = async (req, res, next) => {
     try {
-        const { employeeId, documentDate, items, employeeSign } = req.body;
+        const { employeeId, documentDate, items, employeeSign, ticketNumber } = req.body;
 
         await conn.transaction(async (transaction) => {
             const deliveryNote = await DeliveryNote.create({
                 employeeId,
                 documentDate,
                 documentNumber: await DeliveryNote.max('documentNumber') + 1,
+                ticketNumber,
                 employeeSign,
                 status: Status.Completed
             }, { transaction });

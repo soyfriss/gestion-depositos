@@ -25,6 +25,11 @@ module.exports = (sequelize) => {
             unique: true,
             field: 'DocumentNumber'
         },
+        ticketNumber: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            field: 'TicketNumber'
+        },
         employeeSign: {
             type: DataTypes.TEXT,
             field: 'EmployeeSign'

@@ -78,6 +78,11 @@ export const DeliveryNoteEdit = () => {
             </Labeled>
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
+            <Labeled>
+              <TextField label="Ticket N°" source="ticketNumber" />
+            </Labeled>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
             <Items />
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
