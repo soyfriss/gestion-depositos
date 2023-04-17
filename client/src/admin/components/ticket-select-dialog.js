@@ -45,21 +45,18 @@ function SimpleDialog(props) {
                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                         Select ticket
                     </Typography>
-                    <Button autoFocus color="inherit" onClick={handleClose}>
-                        save
-                    </Button>
                 </Toolbar>
             </AppBar>
-            <List resource="tickets" sort={{ field: 'ticketDate', order: 'ASC' }} /*pagination={false}*/
+            <List resource="tickets"
                 queryOptions={{
                     meta: { usePartialPagination: true },
                 }}
             >
                 <Datagrid bulkActionButtons={false} expand={<ArticlesPanel />} rowClick={rowClick}>
-                    <DateField source="ticketDate" />
-                    <TextField source="number" />
-                    <TextField source="title" />
-                    <TextField source="customer" />
+                    <DateField source="ticketDate" sortable={false} />
+                    <TextField source="number" sortable={false} />
+                    <TextField source="title" sortable={false} />
+                    <TextField source="customer" sortable={false} />
                 </Datagrid>
             </List>
         </Dialog>
@@ -69,12 +66,12 @@ function SimpleDialog(props) {
 SimpleDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
-    selectedValue: PropTypes.string.isRequired,
+    selectedValue: PropTypes.object,
 };
 
 export default function TicketSelectDialog({ setTicket }) {
     const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState('');
+    const [selectedValue, setSelectedValue] = React.useState(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -84,7 +81,7 @@ export default function TicketSelectDialog({ setTicket }) {
         setOpen(false);
         setSelectedValue(value);
         setTicket(value);
-    };
+    }
 
     return (
         <div>
@@ -94,7 +91,7 @@ export default function TicketSelectDialog({ setTicket }) {
                         <Typography variant="subtitle1" component="div" sx={{ mr: 2 }}>
                             Ticket Selected: {selectedValue.number}
                         </Typography>
-                        <Button variant="outlined" onClick={() => setSelectedValue('')} sx={{ mr: 2 }}>
+                        <Button variant="outlined" onClick={() => setSelectedValue(null)} sx={{ mr: 2 }}>
                             Remove ticket
                         </Button>
                     </>

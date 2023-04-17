@@ -23,7 +23,8 @@ export const DeliveryNoteCreate = () => {
                 console.log('ticket: ', ticket);
                 values.status = Status.Completed;
                 values.employeeSign = signatureCanvas;
-                values.ticketNumber = ticket.number;
+                values.ticketId = ticket && ticket.id;
+                values.ticketNumber = ticket && ticket.number;
                 const createdDeliveryNote = await create(
                     'delivery-notes',
                     { data: values },

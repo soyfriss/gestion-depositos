@@ -82,7 +82,6 @@ export const DeliveryNoteForm = ({ setSignatureCanvas, setTicket }) => {
 
 const SignatureInput = ({ source, setSignatureCanvas }) => {
   const { id, field, fieldState } = useInput({ source });
-
   return <>
     <Box>
       <Typography variant="caption" display="block" gutterBottom>
