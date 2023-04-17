@@ -1,11 +1,14 @@
 const { DeliveryNote, DeliveryNoteItem, conn } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
 const updateStock = require('../stock/update-stock');
+const { changeTicketState } = require('../ticket/change-ticket-state');
+const { createTicketArticle } = require('../ticket/create-ticket-article');
 const Status = require('./status-enum');
 
 const createDeliveryNote = async (req, res, next) => {
+    console.log('createDeliveryNote called');
     try {
-        const { employeeId, documentDate, items, employeeSign, ticketNumber } = req.body;
+        const { employeeId, documentDate, items, employeeSign, ticketNumber, ticketId } = req.body;
 
         await conn.transaction(async (transaction) => {
             const deliveryNote = await DeliveryNote.create({
@@ -26,6 +29,13 @@ const createDeliveryNote = async (req, res, next) => {
 
                 // Update stock
                 await updateStock(item.productId, -item.quantity, transaction);
+            }
+
+            // Ticket management
+            if (ticketId) {
+                await createTicketArticle(ticketId, `Delivery Note N° ${deliveryNote.documentNumber} created.`);
+
+                await changeTicketState(ticketId, 'closed');
             }
 
             return res.status(httpStatusCodes.OK).json(deliveryNote);

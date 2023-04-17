@@ -14,7 +14,7 @@ const getTickets = async (req, res, next) => {
     try {
         const { page, size, sort, filter } = req.query;
 
-        let baseURL = `${TICKET_SYSTEM_HOSTNAME}/api/v1/tickets/search?query=state.name:'open'&expand=true&page=${Number(page) + 1}&per_page=${size}`;
+        let baseURL = `${TICKET_SYSTEM_HOSTNAME}/api/v1/tickets/search?query=state.name:'open'%20OR%20state.name:'new'&sort_by=created_at&order_by=asc&expand=true&page=${Number(page) + 1}&per_page=${size}`;
 
         const config = {
             headers: { Authorization: `Bearer ${TICKET_SYSTEM_TOKEN}` }
