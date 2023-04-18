@@ -13,8 +13,9 @@ import { Grid, Box } from '@mui/material';
 import Signature from '../components/signature';
 import Typography from '@mui/material/Typography';
 import { FormHelperText } from '@mui/material';
+import TicketSelectDialog from '../components/ticket-select-dialog';
 
-export const DeliveryNoteForm = ({ setSignatureCanvas }) => {
+export const DeliveryNoteForm = ({ setSignatureCanvas, setTicket }) => {
   return (
     <>
       <Grid container columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
@@ -37,6 +38,9 @@ export const DeliveryNoteForm = ({ setSignatureCanvas }) => {
               optionText="fullName"
             />
           </ReferenceInput>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12}>
+          <TicketSelectDialog setTicket={setTicket} />
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
           <ArrayInput source="items">
@@ -78,7 +82,6 @@ export const DeliveryNoteForm = ({ setSignatureCanvas }) => {
 
 const SignatureInput = ({ source, setSignatureCanvas }) => {
   const { id, field, fieldState } = useInput({ source });
-
   return <>
     <Box>
       <Typography variant="caption" display="block" gutterBottom>

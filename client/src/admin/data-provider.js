@@ -18,9 +18,14 @@ export const dataProvider = {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         let moreFilters = {};
-        if (params.meta && params.meta.moreFilters) {
-            moreFilters = params.meta.moreFilters;
+        let usePartialPagination = false;
+        if (params.meta) {
+            if (params.meta.moreFilters) {
+                moreFilters = params.meta.moreFilters;
+            }
+            usePartialPagination = params.meta.usePartialPagination;
         }
+
         const query = {
             sort: JSON.stringify([field, order]),
             page: page - 1,
@@ -28,6 +33,17 @@ export const dataProvider = {
             filter: JSON.stringify({ ...params.filter, ...moreFilters }),
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
+
+        if (usePartialPagination) {
+            return httpClient(url, { headers: createHeaders() }).then(({ json }) => ({
+                data: json.rows,
+                pageInfo: {
+                    hasPreviousPage: page === 1 ? false : true,
+                    hasNextPage: json.hasNextPage
+                },
+            }));
+        }
+
         return httpClient(url, { headers: createHeaders() }).then(({ json }) => ({
             data: json.rows,
             total: json.count,

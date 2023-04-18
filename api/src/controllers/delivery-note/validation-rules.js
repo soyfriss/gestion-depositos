@@ -89,10 +89,16 @@ const validationRules = () => {
                     itemsErrors.push({});
                     itemNro++;
                 }
-            }),
+            })
+            .bail(),
         body('employeeSign')
-            .not().isEmpty().withMessage(constants.FIELD_REQUIRED)
-            .bail()
+            .custom(async (employeeSign, { req }) => {
+                // The employee sign is only required when there is no ticket number
+                if (!employeeSign && !req.body.ticketNumber) {
+                    return Promise.reject(constants.FIELD_REQUIRED);
+                }
+                console.log('employeeSign validation ok!');
+            })
     ];
 }
 

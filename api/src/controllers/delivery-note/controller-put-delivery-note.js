@@ -2,6 +2,9 @@ const { DeliveryNote, DeliveryNoteItem, conn } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
 const constants = require('../../utils/constants');
 const updateStock = require('../stock/update-stock');
+const { changeTicketState } = require('../ticket/change-ticket-state');
+const { getTicketByNumber } = require('../ticket/get-ticket-by-number');
+const { createTicketArticle } = require('../ticket/create-ticket-article');
 
 const editDeliveryNote = async (req, res, next) => {
     try {
@@ -30,6 +33,16 @@ const editDeliveryNote = async (req, res, next) => {
 
             for (const item of deliveryNote.DeliveryNoteItems) {
                 await updateStock(item.productId, item.quantity, transaction);
+            }
+
+            // Reopen associated ticket
+            if (deliveryNote.ticketNumber) {
+                const ticket = await getTicketByNumber(deliveryNote.ticketNumber);
+                console.log('ticket: ', ticket);
+
+                await createTicketArticle(ticket.id, `Delivery Note N° ${deliveryNote.documentNumber} canceled.`)
+
+                await changeTicketState(ticket.id, 'open');
             }
 
             res.status(httpStatusCodes.OK).json(deliveryNote);

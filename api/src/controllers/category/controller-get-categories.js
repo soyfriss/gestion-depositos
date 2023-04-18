@@ -21,6 +21,7 @@ const getCategories = async (req, res, next) => {
         }
     
         let categories = await Category.findAndCountAll(options);
+        console.log(categories);
 
         res.status(httpStatusCodes.OK).json(categories);
     } catch (error) {

@@ -14,14 +14,17 @@ export const DeliveryNoteCreate = () => {
     const notify = useNotify();
     const [create] = useCreate();
     const [signatureCanvas, setSignatureCanvas] = useState('');
+    const [ticket, setTicket] = useState(null);
 
     const save = useCallback(
         async values => {
             try {
                 // console.log('form values: ', values);
-                // console.log('signature: ', signatureCanvas);
+                console.log('ticket: ', ticket);
                 values.status = Status.Completed;
-                values.employeeSign = signatureCanvas
+                values.employeeSign = signatureCanvas;
+                values.ticketId = ticket && ticket.id;
+                values.ticketNumber = ticket && ticket.number;
                 const createdDeliveryNote = await create(
                     'delivery-notes',
                     { data: values },
@@ -48,13 +51,13 @@ export const DeliveryNoteCreate = () => {
                 });
             }
         },
-        [create, notify, redirect, signatureCanvas]
+        [create, notify, redirect, signatureCanvas, ticket]
     );
 
     return (
         <Create>
             <SimpleForm onSubmit={save}>
-                <DeliveryNoteForm setSignatureCanvas={setSignatureCanvas} />
+                <DeliveryNoteForm setSignatureCanvas={setSignatureCanvas} setTicket={setTicket} />
             </SimpleForm>
         </Create>
     );

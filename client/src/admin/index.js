@@ -22,6 +22,7 @@ import { SupplierEdit } from './supplier/supplier-edit';
 import { PurchaseReceiptList } from './purchase-receipt/purchase-receipt-list';
 import { PurchaseReceiptCreate } from './purchase-receipt/purchase-receipt-create';
 import { PurchaseReceiptEdit } from './purchase-receipt/purchase-receipt-edit';
+// import { TicketList } from './ticket/ticket-list';
 
 function App() {
     return <>
@@ -77,6 +78,10 @@ function App() {
                 recordRepresentation={(record) => `N° ${record.documentNumber}`}
                 options={{ label: 'Purchase Receipts' }}
             />
+            {/* <Resource 
+                name='tickets'
+                list={TicketList}
+            /> */}
         </Admin>
     </>
 }
