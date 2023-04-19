@@ -1,10 +1,11 @@
-const { DeliveryNote, DeliveryNoteItem, conn } = require('../../db');
+const { DeliveryNote, DeliveryNoteItem, Employee, conn } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
 const constants = require('../../utils/constants');
 const updateStock = require('../stock/update-stock');
 const { changeTicketState } = require('../ticket/change-ticket-state');
 const { getTicketByNumber } = require('../ticket/get-ticket-by-number');
 const { createTicketArticle } = require('../ticket/create-ticket-article');
+const mailer = require('../../utils/mailer');
 
 const editDeliveryNote = async (req, res, next) => {
     try {
@@ -14,7 +15,8 @@ const editDeliveryNote = async (req, res, next) => {
         await conn.transaction(async (transaction) => {
             const deliveryNote = await DeliveryNote.findByPk(id, {
                 include: [
-                    { model: DeliveryNoteItem }
+                    { model: DeliveryNoteItem },
+                    { model: Employee }
                 ],
                 transaction
             });
@@ -44,6 +46,20 @@ const editDeliveryNote = async (req, res, next) => {
 
                 await changeTicketState(ticket.id, 'open');
             }
+
+            // Send notification by email
+            let employee = await Employee.findByPk(deliveryNote.Employee.id, { transaction });
+            const to = employee.email;
+            const subject = `Delivery Note canceled`;
+            const body = {
+                name: `${employee.firstname} ${employee.lastname}`,
+                greeting: 'Hello',
+                signature: 'Best regards',
+                intro: `This is to inform that the Delivery Note N° ${deliveryNote.documentNumber} has been canceled.`,
+                outro: ''
+            }
+
+            await mailer(to, subject, body);
 
             res.status(httpStatusCodes.OK).json(deliveryNote);
         });

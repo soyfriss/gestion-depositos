@@ -1,9 +1,10 @@
-const { DeliveryNote, DeliveryNoteItem, conn } = require('../../db');
+const { DeliveryNote, DeliveryNoteItem, Employee, conn } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
 const updateStock = require('../stock/update-stock');
 const { changeTicketState } = require('../ticket/change-ticket-state');
 const { createTicketArticle } = require('../ticket/create-ticket-article');
 const Status = require('./status-enum');
+const mailer = require('../../utils/mailer');
 
 const createDeliveryNote = async (req, res, next) => {
     console.log('createDeliveryNote called');
@@ -37,6 +38,20 @@ const createDeliveryNote = async (req, res, next) => {
 
                 await changeTicketState(ticketId, 'closed');
             }
+
+            // Send notification by email
+            let employee = await Employee.findByPk(employeeId, { transaction });
+            const to = employee.email;
+            const subject = `Delivery Note created`;
+            const body = {
+                name: `${employee.firstname} ${employee.lastname}`,
+                greeting: 'Hello',
+                signature: 'Best regards',
+                intro: `This is to inform that the Delivery Note N° ${deliveryNote.documentNumber} has been created.`,
+                outro: ''
+            }
+
+            await mailer(to, subject, body);
 
             return res.status(httpStatusCodes.OK).json(deliveryNote);
         });
