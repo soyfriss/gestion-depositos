@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const passport = require('../../config/passport');
 const JWT_SECRET = process.env.JWT_SECRET;
+const { User } = require('../../db');
 
 // Iniciar sesión de usuario
 const loginUser = (req, res, next) => {
@@ -18,6 +19,12 @@ const loginUser = (req, res, next) => {
       expiresIn: '1h',
     });
 
+    User.update({
+      token
+    }, {
+      where: { id: user.id }
+    });
+
     return res.json({ token });
   })(req, res, next);
 };
@@ -29,9 +36,17 @@ const logoutUser = (req, res, next) => {
     if (err) {
       res.status(401).json({ message: 'Token inválido' });
     } else {
+
+      User.update({
+        token:null
+      }, {
+        where: { token: token }
+      });
+
       res.json({ message: 'Sesión cerrada correctamente' });
     }
   });
 };
+
 
 module.exports = { loginUser, logoutUser };

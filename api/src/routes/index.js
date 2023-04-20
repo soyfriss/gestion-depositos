@@ -7,6 +7,7 @@ const deliveryNoteRouter = require('./delivery-note');
 const supplierRouter = require('./supplier');
 const purchaseRouter = require('./purchase-receipt');
 const ticketRouter = require('./ticket');
+const profileRouter = require('./profile');
 
 //Login & Logout
 const passport = require('passport');
@@ -23,5 +24,6 @@ router.post('/logout', passport.authenticate('jwt', { session: false }), logoutU
 router.use('/suppliers', passport.authenticate('jwt', { session: false }), supplierRouter);
 router.use('/purchase-receipts', passport.authenticate('jwt', { session: false }), purchaseRouter);
 router.use('/tickets', ticketRouter);
+router.use('/profile', passport.authenticate('jwt', { session: false }), profileRouter);
 
 module.exports = router;
