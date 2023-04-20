@@ -9,7 +9,9 @@ const authProvider = {
     return axios.post(`${apiUrl}/login`, { username, password })
       .then(response => {
         const { token } = response.data;        
+        const { id } = decodeJwt(token);
         localStorage.setItem('token', token);
+        localStorage.setItem('userId', id);
       });
   },
   
@@ -18,13 +20,18 @@ const authProvider = {
     return axios.post(`${apiUrl}/logout`, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(() => {
         localStorage.removeItem('token');
+
+      })
+      .catch(() => {
+        localStorage.removeItem('token');
+
       });
   },
 
-  logout: () => {
-    localStorage.removeItem('token');
-    return Promise.resolve();
-  },
+  // logout: () => {
+  //   localStorage.removeItem('token');
+  //   return Promise.resolve();
+  // },
 
   checkError: ({ status }) => {
     if (status === 401 || status === 403) {
