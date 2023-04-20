@@ -23,10 +23,12 @@ import { PurchaseReceiptList } from './purchase-receipt/purchase-receipt-list';
 import { PurchaseReceiptCreate } from './purchase-receipt/purchase-receipt-create';
 import { PurchaseReceiptEdit } from './purchase-receipt/purchase-receipt-edit';
 // import { TicketList } from './ticket/ticket-list';
+import { ProfileLayout } from './layout/layout';
+import { ProfileEdit } from './profile/profile-edit';
 
 function App() {
     return <>
-        <Admin dataProvider={dataProvider} authProvider={authProvider}>
+        <Admin layout={ProfileLayout} dataProvider={dataProvider} authProvider={authProvider}>
             <Resource
                 name='categories'
                 list={CategoryList}
@@ -39,7 +41,7 @@ function App() {
                 list={EmployeeList}
                 edit={EmployeeEdit}
                 create={EmployeeCreate}
-                recordRepresentation='filenumber'
+                recordRepresentation={(record) => `- ${record.firstname} ${record.lastname}`}
             />
             <Resource
                 name='suppliers'
@@ -53,14 +55,13 @@ function App() {
                 list={ProductList}
                 create={ProductCreate}
                 edit={ProductEdit}
-                recordRepresentation='name'
             />
             <Resource
                 name='users'
                 list={UserList}
                 create={UserCreate}
                 edit={UserEdit}
-                recordRepresentation='username'
+                recordRepresentation={(record) => `- ${record.username}`}
             />
             <Resource
                 name='delivery-notes'
@@ -68,7 +69,6 @@ function App() {
                 create={DeliveryNoteCreate}
                 edit={DeliveryNoteEdit}
                 recordRepresentation={(record) => `N° ${record.documentNumber}`}
-                options={{ label: 'Delivery Notes' }}
             />
             <Resource
                 name='purchase-receipts'
@@ -76,7 +76,10 @@ function App() {
                 create={PurchaseReceiptCreate}
                 edit={PurchaseReceiptEdit}
                 recordRepresentation={(record) => `N° ${record.documentNumber}`}
-                options={{ label: 'Purchase Receipts' }}
+            />
+            <Resource
+                name='profile'
+                edit={ProfileEdit}
             />
             {/* <Resource 
                 name='tickets'
