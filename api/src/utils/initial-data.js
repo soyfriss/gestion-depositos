@@ -1,4 +1,4 @@
-const { Category, Employee, Product, CategoryProduct, User, ProductPhoto, DeliveryNote, Supplier } = require('../db');
+const { Category, Employee, Product, CategoryProduct, User, ProductPhoto, DeliveryNote, DeliveryNoteItem, Supplier } = require('../db');
 
 module.exports = async () => {
     // Categories
@@ -44,11 +44,12 @@ module.exports = async () => {
         {
             name: 'Toner 226A',
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-            stock: 10   // To test Delivery Notes
+            currentQty: 10
         },
         {
             name: 'mouse USB',
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+            currentQty: 10
         }
     ];
 
@@ -112,36 +113,31 @@ module.exports = async () => {
             status: 'Completed'
         },
         {
-            employeeId: 1,
-            documentDate: '2023-03-30',
-            documentNumber: 2,
-            employeeSign: 'asdfasdf',
-            status: 'Completed'
-        },
-        {
-            employeeId: 1,
-            documentDate: '2023-03-31',
-            documentNumber: 3,
-            employeeSign: 'asdfasdf',
-            status: 'Canceled'
-        },
-        {
             employeeId: 2,
             documentDate: '2023-04-01',
             documentNumber: 4,
             employeeSign: 'asdfasdf',
             status: 'Completed'
         },
-        {
-            employeeId: 2,
-            documentDate: '2023-04-01',
-            documentNumber: 5,
-            employeeSign: 'asdfasdf',
-            status: 'Canceled'
-        },
     ]
 
     await DeliveryNote.bulkCreate(deliveryNotes);
+
+    // Delivery Notes items
+    const deliveryNotesItems = [
+        {
+            deliveryNoteId: 1,
+            productId: 1,
+            quantity: 10
+        },
+        {
+            deliveryNoteId: 2,
+            productId: 2,
+            quantity: 10
+        }
+    ]
+
+    await DeliveryNoteItem.bulkCreate(deliveryNotesItems);
 
     const suppliers = [
         {

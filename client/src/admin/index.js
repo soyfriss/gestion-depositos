@@ -55,6 +55,7 @@ function App() {
                 list={ProductList}
                 create={ProductCreate}
                 edit={ProductEdit}
+                recordRepresentation='name'
             />
             <Resource
                 name='users'
