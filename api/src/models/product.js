@@ -19,10 +19,10 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING(500),
             field: 'Description'
         },
-        stock: {
+        currentQty: {
             type: DataTypes.INTEGER,
-            field: 'Stock',
-            defaultValue: 0
+            defaultValue: 0,
+            field: 'CurrentQty'
         },
         status: {
             type: StatusType, 

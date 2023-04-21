@@ -7,7 +7,7 @@ const updatePhotos = require('./update-photos');
 const editProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { name, description, stock, status, categories, ProductPhotos } = req.body;
+        const { name, description, status, categories, ProductPhotos } = req.body;
 
         await conn.transaction(async (t) => {
             const product = await Product.findByPk(id, { transaction: t });
@@ -19,7 +19,6 @@ const editProduct = async (req, res, next) => {
             await product.update({
                 name,
                 description,
-                stock,
                 status
             },
             { transaction: t }

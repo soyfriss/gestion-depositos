@@ -35,7 +35,7 @@ export const ProductList = () => (
     <List filters={productFilters} sort={{ field: 'name', order: 'ASC' }}>
         <Datagrid rowClick="edit" bulkActionButtons={false} expand={<PhotosPanel />}>
             <TextField source="name" />
-            <NumberField source="stock" />
+            <NumberField source="currentQty" label="Current Qty" />
             <ArrayField source="Categories" sortable={false}>
                 <SingleFieldList>
                     <ChipField source="name" />

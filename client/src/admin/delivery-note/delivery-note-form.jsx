@@ -53,7 +53,7 @@ export const DeliveryNoteForm = ({ setSignatureCanvas, setTicket }) => {
                 source="productId"
                 reference="products"
                 queryOptions={{
-                  meta: { moreFilters: { status: 'Active', stock_gte: 1 } },
+                  meta: { moreFilters: { status: 'Active', currentQty_gte: 1 } },
                 }}
               >
                 <AutocompleteInput

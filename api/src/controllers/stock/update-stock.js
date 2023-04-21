@@ -4,7 +4,7 @@ const updateStock = async (productId, quantity, transaction) => {
     const product = await Product.findByPk(productId, { transaction });
 
     await product.update({
-        stock: product.stock + quantity
+        currentQty: product.currentQty + quantity
     }, { transaction });
 
     return product;

@@ -37,8 +37,8 @@ const getProducts = async (req, res, next) => {
             if (filterObj.status) {
                 conditions.push({ status: { [Op.eq]: filterObj.status } });
             }
-            if (filterObj.stock_gte) {
-                conditions.push({ stock: { [Op.gte]: filterObj.stock_gte } });
+            if (filterObj.currentQty_gte) {
+                conditions.push({ currentQty: { [Op.gte]: filterObj.currentQty_gte } });
             }
 
             if (filterObj.categories) {
