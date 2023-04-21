@@ -46,6 +46,9 @@ const { Product,
   Supplier,
   PurchaseReceipt,
   PurchaseReceiptItem,
+  InventoryCount,
+  InventoryCountItem,
+  User
 } = sequelize.models;
 
 // Associations
@@ -80,6 +83,18 @@ PurchaseReceiptItem.belongsTo(PurchaseReceipt);
 // PurchaseReceiptItem <--> Product
 Product.hasMany(PurchaseReceiptItem);
 PurchaseReceiptItem.belongsTo(Product);
+
+// InventoryCount <--> User
+User.hasMany(InventoryCount);
+InventoryCount.belongsTo(User);
+
+// InventoryCount <--> InventoryCountItem
+InventoryCount.hasMany(InventoryCountItem);
+InventoryCountItem.belongsTo(InventoryCount);
+
+// InventoryCountItem <--> Product
+Product.hasMany(InventoryCountItem);
+InventoryCountItem.belongsTo(Product);
 
 module.exports = {
   ...sequelize.models,

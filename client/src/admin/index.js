@@ -25,6 +25,8 @@ import { PurchaseReceiptEdit } from './purchase-receipt/purchase-receipt-edit';
 // import { TicketList } from './ticket/ticket-list';
 import { ProfileLayout } from './layout/layout';
 import { ProfileEdit } from './profile/profile-edit';
+import { InventoryCountList } from './inventory-count/inventory-count-list';
+import { InventoryCountCreate } from './inventory-count/inventory-count-create';
 
 function App() {
     return <>
@@ -82,10 +84,11 @@ function App() {
                 name='profile'
                 edit={ProfileEdit}
             />
-            {/* <Resource 
-                name='tickets'
-                list={TicketList}
-            /> */}
+            <Resource
+                name='inventory-counts'
+                list={InventoryCountList}
+                create={InventoryCountCreate}
+            />
         </Admin>
     </>
 }

@@ -1,4 +1,4 @@
-const { Category, Employee, Product, CategoryProduct, User, ProductPhoto, DeliveryNote, DeliveryNoteItem, Supplier } = require('../db');
+const { Category, Employee, Product, CategoryProduct, User, ProductPhoto, DeliveryNote, DeliveryNoteItem, Supplier, InventoryCount, InventoryCountItem } = require('../db');
 
 module.exports = async () => {
     // Categories
@@ -148,4 +148,25 @@ module.exports = async () => {
     ]
 
     await Supplier.bulkCreate(suppliers);
+
+    const inventoryCounts = [
+        {
+            userId: 1,
+            documentDate: '2023-03-10',
+            status: 'Completed'
+        }
+    ]
+
+    await InventoryCount.bulkCreate(inventoryCounts);
+
+    const inventoryCountsItems = [
+        {
+            inventoryCountId: 1,
+            productId: 1,
+            currentQty: 10,
+            realQty: 10
+        }
+    ]
+
+    await InventoryCountItem.bulkCreate(inventoryCountsItems);
 }

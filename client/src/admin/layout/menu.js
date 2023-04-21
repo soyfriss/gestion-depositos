@@ -27,6 +27,7 @@ export const Menu = () => {
       <MenuItemLink to="/suppliers" primaryText="Suppliers" leftIcon={<LocalShippingIcon />} />
       <MenuItemLink to="/delivery-notes" primaryText="Delivery Notes" leftIcon={<OutboxIcon />} />
       <MenuItemLink to="/purchase-receipts" primaryText="Purchase Receipts" leftIcon={<MoveToInboxIcon />} />
+      <MenuItemLink to="/inventory-counts" primaryText="Inventory Counts" leftIcon={<ListIcon />}/>
       <Divider/>
       <MenuItemLink to={`/profile/${userId}`} primaryText="My Profile" leftIcon={<SettingsIcon />} />
       <MenuItemLink to="" onClick={handleLogout} primaryText="Logout" leftIcon={<LogoutIcon />} />
