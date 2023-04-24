@@ -7,8 +7,7 @@ import {
   ReferenceInput,
   required,
   FormDataConsumer,
-  Labeled,
-  TextField,
+  TextInput,
   useGetOne,
   Loading
 } from 'react-admin';
@@ -39,11 +38,11 @@ export const InventoryCountCreateForm = () => {
           </ReferenceInput>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
-          <ArrayInput source="items">
+          <ArrayInput source="items" validate={required()}>
             <SimpleFormIterator
               inline
               getItemLabel={(index) => `#${index + 1}`}
-              sx={{ '& .RaSimpleFormIterator-form': { flex: 1 } }}
+              fullWidth
             >
               <ReferenceInput
                 source="productId"
@@ -59,23 +58,52 @@ export const InventoryCountCreateForm = () => {
                   sx={{ flex: 2 }}
                 />
               </ReferenceInput>
-              <FormDataConsumer>
-                {({ scopedFormData }) => {
-                  const { productId } = scopedFormData;
-                  if (productId) {
-                    return <ProductCurrentQty productId={scopedFormData.productId} />
-                  }
-                  return <Labeled label="Current Qty">
-                    <TextField source="currentQty" defaultValue="-" />
-                  </Labeled>
-                }}
-              </FormDataConsumer>
               <NumberInput
                 source="realQty"
                 label="Real Qty"
                 validate={required()}
                 sx={{ flex: 1 }}
               />
+              <FormDataConsumer>
+                {({ scopedFormData, getSource }) => {
+                  const { productId } = scopedFormData;
+                  if (productId) {
+                    return <CurrentQtyField
+                      scopedFormData={scopedFormData}
+                      productId={scopedFormData.productId}
+                      getSource={getSource}
+                    />
+                  } else {
+                    return (
+                      <TextInput
+                        disabled
+                        label="Current Qty"
+                        source={getSource('currentQty')}
+                        sx={{ flex: 1 }}
+                      />
+                    )
+                  }
+                }}
+              </FormDataConsumer>
+              <FormDataConsumer>
+                {({ scopedFormData, getSource }) => {
+                  console.log('scopedFormData difference', scopedFormData);
+                  if (isNaN(scopedFormData.realQty) || isNaN(scopedFormData.currentQty)) {
+                    scopedFormData.difference = '';
+                  } else {
+                    scopedFormData.difference = scopedFormData.realQty - scopedFormData.currentQty;
+                  }
+                  return (
+                    <NumberInput
+                      disabled
+                      label="Difference"
+                      defaultValue={scopedFormData.difference}
+                      source={getSource('difference')}
+                      sx={{ flex: 1 }}
+                    />
+                  )
+                }}
+              </FormDataConsumer>
             </SimpleFormIterator>
           </ArrayInput>
         </Grid>
@@ -84,17 +112,26 @@ export const InventoryCountCreateForm = () => {
   );
 };
 
-const ProductCurrentQty = ({ productId }) => {
+const CurrentQtyField = ({ scopedFormData, getSource, productId }) => {
   const { data: product, isLoading, error } = useGetOne('products', { id: productId });
-  console.log('product', product);
 
   if (isLoading) { return <Loading />; }
 
   if (error) { return <p>ERROR</p>; }
 
-  return <>
-    <Labeled label="Current Qty">
-      <TextField source="currentQty" record={product} />
-    </Labeled>
-  </>
+  scopedFormData.currentQty = product.currentQty;
+  if (isNaN(scopedFormData.realQty)) {
+    scopedFormData.difference = -product.currentQty;
+  } else {
+    scopedFormData.difference = scopedFormData.realQty - product.currentQty
+  }
+
+  return (
+    <TextInput
+      disabled
+      defaultValue={scopedFormData.currentQty}
+      label="Current Qty"
+      source={getSource('currentQty')}
+    />
+  )
 }
