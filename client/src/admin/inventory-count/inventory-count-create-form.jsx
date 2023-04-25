@@ -9,9 +9,10 @@ import {
   FormDataConsumer,
   TextInput,
   useGetOne,
-  Loading
+  Loading,
 } from 'react-admin';
 import { Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 export const InventoryCountCreateForm = () => {
   return (
@@ -68,11 +69,13 @@ export const InventoryCountCreateForm = () => {
                 {({ scopedFormData, getSource }) => {
                   const { productId } = scopedFormData;
                   if (productId) {
-                    return <CurrentQtyField
-                      scopedFormData={scopedFormData}
-                      productId={scopedFormData.productId}
-                      getSource={getSource}
-                    />
+                    return (
+                      <CurrentQtyField
+                        scopedFormData={scopedFormData}
+                        productId={scopedFormData.productId}
+                        getSource={getSource}
+                      />
+                    );
                   } else {
                     return (
                       <TextInput
@@ -81,27 +84,18 @@ export const InventoryCountCreateForm = () => {
                         source={getSource('currentQty')}
                         sx={{ flex: 1 }}
                       />
-                    )
+                    );
                   }
                 }}
               </FormDataConsumer>
               <FormDataConsumer>
                 {({ scopedFormData, getSource }) => {
-                  console.log('scopedFormData difference', scopedFormData);
-                  if (isNaN(scopedFormData.realQty) || isNaN(scopedFormData.currentQty)) {
-                    scopedFormData.difference = '';
-                  } else {
-                    scopedFormData.difference = scopedFormData.realQty - scopedFormData.currentQty;
-                  }
                   return (
-                    <NumberInput
-                      disabled
-                      label="Difference"
-                      defaultValue={scopedFormData.difference}
-                      source={getSource('difference')}
-                      sx={{ flex: 1 }}
+                    <DifferenceField
+                      scopedFormData={scopedFormData}
+                      getSource={getSource}
                     />
-                  )
+                  );
                 }}
               </FormDataConsumer>
             </SimpleFormIterator>
@@ -113,25 +107,53 @@ export const InventoryCountCreateForm = () => {
 };
 
 const CurrentQtyField = ({ scopedFormData, getSource, productId }) => {
-  const { data: product, isLoading, error } = useGetOne('products', { id: productId });
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useGetOne('products', { id: productId });
 
-  if (isLoading) { return <Loading />; }
-
-  if (error) { return <p>ERROR</p>; }
-
-  scopedFormData.currentQty = product.currentQty;
-  if (isNaN(scopedFormData.realQty)) {
-    scopedFormData.difference = -product.currentQty;
-  } else {
-    scopedFormData.difference = scopedFormData.realQty - product.currentQty
+  if (isLoading) {
+    return <Loading />;
   }
 
+  if (error) {
+    return <p>ERROR</p>;
+  }
+
+  // scopedFormData.currentQty = product.currentQty;
+  // scopedFormData.difference = product.currentQty;
+  // if (isNaN(scopedFormData.realQty)) {
+  //   scopedFormData.difference = -product.currentQty;
+  // } else {
+  //   scopedFormData.difference = scopedFormData.realQty - product.currentQty;
+  // }
+
   return (
-    <TextInput
+    <NumberInput
       disabled
-      defaultValue={scopedFormData.currentQty}
+      defaultValue={product.currentQty}
       label="Current Qty"
       source={getSource('currentQty')}
     />
-  )
-}
+  );
+};
+
+const DifferenceField = ({ scopedFormData, getSource }) => {
+  const [difference, setDifference] = useState(scopedFormData.difference);
+
+  useEffect(() => {
+    if (scopedFormData.currentQty) {
+      setDifference(scopedFormData.currentQty - 1);
+    }
+  }, [scopedFormData.currentQty]);
+  console.log('DifferenceField', difference);
+  return (
+    <TextInput
+      disabled
+      defaultValue={difference}
+      label="Difference"
+      source={getSource('difference')}
+    />
+  );
+};
