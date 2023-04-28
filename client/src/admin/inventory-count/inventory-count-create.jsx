@@ -16,6 +16,7 @@ export const InventoryCountCreate = () => {
 
     const save = useCallback(
         async values => {
+
             try {
                 values.status = Status.Completed;
                 const createdInventoryCount = await create(
@@ -48,7 +49,7 @@ export const InventoryCountCreate = () => {
     );
 
     return (
-        <Create>
+        <Create title="Create Inventory Count">
             <SimpleForm onSubmit={save}>
                 <InventoryCountCreateForm />
             </SimpleForm>

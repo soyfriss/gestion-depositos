@@ -7,14 +7,45 @@ import {
   ReferenceInput,
   required,
   FormDataConsumer,
-  TextInput,
-  useGetOne,
-  Loading,
+  TextField,
+  useChoicesContext,
+  useSimpleFormIteratorItem,
+  Labeled
 } from 'react-admin';
 import { Grid } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useFormContext } from "react-hook-form";
 
 export const InventoryCountCreateForm = () => {
+  const { setValue } = useFormContext();
+
+  const ProductInput = () => {
+    const choicesContext = useChoicesContext();
+    const item = useSimpleFormIteratorItem();
+
+    const currentQtyField = `items.${item.index}.currentQty`;
+
+    const getProductDetails = (id) => {
+      if (id) {
+        for (const product of choicesContext.allChoices) {
+          if (product.id === id) {
+            setValue(currentQtyField, product.currentQty);
+            break;
+          }
+        }
+      } else {
+        setValue(currentQtyField, null);
+      }
+    }
+
+    return <AutocompleteInput
+      label="Product"
+      validate={required()}
+      filterToQuery={(searchText) => ({ name: searchText })}
+      sx={{ flex: 2 }}
+      onChange={(index) => getProductDetails(index)}
+    />
+  }
+
   return (
     <>
       <Grid container columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
@@ -39,7 +70,7 @@ export const InventoryCountCreateForm = () => {
           </ReferenceInput>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
-          <ArrayInput source="items" validate={required()}>
+          <ArrayInput source="items">
             <SimpleFormIterator
               inline
               getItemLabel={(index) => `#${index + 1}`}
@@ -52,12 +83,7 @@ export const InventoryCountCreateForm = () => {
                   meta: { moreFilters: { status: 'Active' } },
                 }}
               >
-                <AutocompleteInput
-                  label="Product"
-                  validate={required()}
-                  filterToQuery={(searchText) => ({ name: searchText })}
-                  sx={{ flex: 2 }}
-                />
+                <ProductInput />
               </ReferenceInput>
               <NumberInput
                 source="realQty"
@@ -66,36 +92,23 @@ export const InventoryCountCreateForm = () => {
                 sx={{ flex: 1 }}
               />
               <FormDataConsumer>
-                {({ scopedFormData, getSource }) => {
-                  const { productId } = scopedFormData;
-                  if (productId) {
-                    return (
-                      <CurrentQtyField
-                        scopedFormData={scopedFormData}
-                        productId={scopedFormData.productId}
-                        getSource={getSource}
-                      />
-                    );
-                  } else {
-                    return (
-                      <TextInput
-                        disabled
-                        label="Current Qty"
-                        source={getSource('currentQty')}
-                        sx={{ flex: 1 }}
-                      />
-                    );
-                  }
+                {({ scopedFormData }) => {
+                  return <Labeled label="Current Qty" sx={{ mt: 1, mr: 1 }}>
+                    <TextField
+                      source="currentQty"
+                      record={scopedFormData}
+                    />
+                  </Labeled>
                 }}
               </FormDataConsumer>
               <FormDataConsumer>
-                {({ scopedFormData, getSource }) => {
-                  return (
-                    <DifferenceField
-                      scopedFormData={scopedFormData}
-                      getSource={getSource}
+                {({ scopedFormData }) => {
+                  return <Labeled label="Difference" sx={{ mt: 1 }}>
+                    <TextField
+                      source="difference"
+                      record={{ difference: scopedFormData.realQty - scopedFormData.currentQty }}
                     />
-                  );
+                  </Labeled>
                 }}
               </FormDataConsumer>
             </SimpleFormIterator>
@@ -103,57 +116,5 @@ export const InventoryCountCreateForm = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
-
-const CurrentQtyField = ({ scopedFormData, getSource, productId }) => {
-  const {
-    data: product,
-    isLoading,
-    error,
-  } = useGetOne('products', { id: productId });
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <p>ERROR</p>;
-  }
-
-  // scopedFormData.currentQty = product.currentQty;
-  // scopedFormData.difference = product.currentQty;
-  // if (isNaN(scopedFormData.realQty)) {
-  //   scopedFormData.difference = -product.currentQty;
-  // } else {
-  //   scopedFormData.difference = scopedFormData.realQty - product.currentQty;
-  // }
-
-  return (
-    <NumberInput
-      disabled
-      defaultValue={product.currentQty}
-      label="Current Qty"
-      source={getSource('currentQty')}
-    />
-  );
-};
-
-const DifferenceField = ({ scopedFormData, getSource }) => {
-  const [difference, setDifference] = useState(scopedFormData.difference);
-
-  useEffect(() => {
-    if (scopedFormData.currentQty) {
-      setDifference(scopedFormData.currentQty - 1);
-    }
-  }, [scopedFormData.currentQty]);
-  console.log('DifferenceField', difference);
-  return (
-    <TextInput
-      disabled
-      defaultValue={difference}
-      label="Difference"
-      source={getSource('difference')}
-    />
   );
 };
