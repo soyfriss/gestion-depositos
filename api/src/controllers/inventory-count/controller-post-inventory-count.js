@@ -15,10 +15,9 @@ const createInventoryCount = async (req, res, next) => {
             }, { transaction });
 
             for (const item of items) {
-
                 // Get product to obtain current quantity
-                const product = Product.findByPk(item.productId);
-                
+                const product = await Product.findByPk(item.productId);
+
                 await InventoryCountItem.create({
                     inventoryCountId: inventoryCount.id,
                     productId: item.productId,
@@ -28,7 +27,7 @@ const createInventoryCount = async (req, res, next) => {
                 }, { transaction });
 
                 // Update stock
-                await updateStock(item.productId, product.currentQty - item.realQty, transaction);
+                await updateStock(item.productId, item.realQty - product.currentQty, transaction);
             }
 
             return res.status(httpStatusCodes.OK).json(inventoryCount);
