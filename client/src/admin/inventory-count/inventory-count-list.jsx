@@ -28,7 +28,7 @@ const inventoryCountFilters = [
 ];
 
 export const InventoryCountList = () => (
-    <List filters={inventoryCountFilters} sort={{ field: 'documentDate', order: 'DESC' }}>
+    <List filters={inventoryCountFilters} sort={{ field: 'documentDate', order: 'DESC' }} title="Inventory Counts">
         <Datagrid rowClick="edit" bulkActionButtons={false}>
             <DateField source="documentDate" />
             <ReferenceField reference='users' source='userId'>

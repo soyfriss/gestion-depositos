@@ -27,6 +27,7 @@ import { ProfileLayout } from './layout/layout';
 import { ProfileEdit } from './profile/profile-edit';
 import { InventoryCountList } from './inventory-count/inventory-count-list';
 import { InventoryCountCreate } from './inventory-count/inventory-count-create';
+import { InventoryCountEdit } from './inventory-count/inventory-count-edit';
 
 function App() {
     return <>
@@ -88,6 +89,7 @@ function App() {
                 name='inventory-counts'
                 list={InventoryCountList}
                 create={InventoryCountCreate}
+                edit={InventoryCountEdit}
             />
         </Admin>
     </>

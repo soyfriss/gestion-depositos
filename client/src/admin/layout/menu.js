@@ -10,6 +10,7 @@ import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import { useLogout } from 'react-admin';
 
 export const Menu = () => {
@@ -27,7 +28,7 @@ export const Menu = () => {
       <MenuItemLink to="/suppliers" primaryText="Suppliers" leftIcon={<LocalShippingIcon />} />
       <MenuItemLink to="/delivery-notes" primaryText="Delivery Notes" leftIcon={<OutboxIcon />} />
       <MenuItemLink to="/purchase-receipts" primaryText="Purchase Receipts" leftIcon={<MoveToInboxIcon />} />
-      <MenuItemLink to="/inventory-counts" primaryText="Inventory Counts" leftIcon={<ListIcon />}/>
+      <MenuItemLink to="/inventory-counts" primaryText="Inventory Counts" leftIcon={<InventoryIcon />}/>
       <Divider/>
       <MenuItemLink to={`/profile/${userId}`} primaryText="My Profile" leftIcon={<SettingsIcon />} />
       <MenuItemLink to="" onClick={handleLogout} primaryText="Logout" leftIcon={<LogoutIcon />} />
