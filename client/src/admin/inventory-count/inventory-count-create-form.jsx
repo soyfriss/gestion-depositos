@@ -56,7 +56,7 @@ export const InventoryCountCreateForm = () => {
             label="Date"
             defaultValue={new Date()}
             source="documentDate"
-            autoFocus
+            disabled
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
@@ -106,7 +106,7 @@ export const InventoryCountCreateForm = () => {
                   return <Labeled label="Difference" sx={{ mt: 1 }}>
                     <TextField
                       source="difference"
-                      record={{ difference: scopedFormData.realQty - scopedFormData.currentQty }}
+                      record={{ difference: (scopedFormData.realQty && scopedFormData.currentQty) ? scopedFormData.realQty - scopedFormData.currentQty : '' }}
                     />
                   </Labeled>
                 }}
