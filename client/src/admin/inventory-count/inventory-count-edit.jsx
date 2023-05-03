@@ -12,6 +12,7 @@ import {
   useRecordContext,
   Datagrid,
   SelectInput,
+  required,
   ImageField
 } from 'react-admin';
 import EditToolbarWithConfirmation from '../components/edit-toolbar-with-confirmation';
@@ -107,7 +108,7 @@ const StatusField = () => {
 
   return (
     <SelectInput
-      required
+      validate={required()}
       fullWidth
       label="Status"
       source="status"

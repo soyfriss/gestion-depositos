@@ -2,6 +2,7 @@ const { InventoryCount, InventoryCountItem, Product, conn } = require('../../db'
 const httpStatusCodes = require('../../utils/http-status-codes');
 const updateStock = require('../stock/update-stock');
 const Status = require('./status-enum');
+const updateProductCountDate = require('./update-product-count-date');
 
 const createInventoryCount = async (req, res, next) => {
     try {
@@ -28,6 +29,8 @@ const createInventoryCount = async (req, res, next) => {
 
                 // Update stock
                 await updateStock(item.productId, item.realQty - product.currentQty, transaction);
+                // Update product count date
+                await updateProductCountDate(item.productId, documentDate, false, transaction);
             }
 
             return res.status(httpStatusCodes.OK).json(inventoryCount);

@@ -10,6 +10,7 @@ import {
     SingleFieldList,
     ChipField,
     ReferenceArrayInput,
+    DateField,
 } from "react-admin";
 
 const PhotosPanel = () => {
@@ -36,6 +37,7 @@ export const ProductList = () => (
         <Datagrid rowClick="edit" bulkActionButtons={false} expand={<PhotosPanel />}>
             <TextField source="name" />
             <NumberField source="currentQty" label="Current Qty" />
+            <DateField source="lastQtyCountDate" label="Last Qty Count" align="right" />
             <ArrayField source="Categories" sortable={false}>
                 <SingleFieldList>
                     <ChipField source="name" />
