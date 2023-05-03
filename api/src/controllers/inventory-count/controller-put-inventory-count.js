@@ -2,6 +2,7 @@ const { InventoryCount, InventoryCountItem, conn } = require('../../db');
 const httpStatusCodes = require('../../utils/http-status-codes');
 const constants = require('../../utils/constants');
 const updateStock = require('../stock/update-stock');
+const updateProductCountDate = require('./update-product-count-date');
 
 const editInventoryCount = async (req, res, next) => {
     try {
@@ -32,6 +33,7 @@ const editInventoryCount = async (req, res, next) => {
 
             for (const item of inventoryCount.InventoryCountItems) {
                 await updateStock(item.productId, -(item.realQty - item.currentQty), transaction);
+                await updateProductCountDate(item.productId, inventoryCount.documentDate, true, transaction);
             }
 
             res.status(httpStatusCodes.OK).json(inventoryCount);

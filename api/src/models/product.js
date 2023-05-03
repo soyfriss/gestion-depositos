@@ -24,6 +24,11 @@ module.exports = (sequelize) => {
             defaultValue: 0,
             field: 'CurrentQty'
         },
+        lastQtyCountDate: {
+            type: DataTypes.DATEONLY,
+            allowNull: true,
+            field: 'LastQtyCountDate'
+        },
         status: {
             type: StatusType, 
             allowNull: false,
