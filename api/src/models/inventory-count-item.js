@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
         difference: {
             type: DataTypes.VIRTUAL,
             get() {
-                return realQty - currentQty;
+                return this.realQty - this.currentQty;
             }
         }
     }, {
