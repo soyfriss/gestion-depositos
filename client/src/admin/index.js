@@ -28,10 +28,12 @@ import { ProfileEdit } from './profile/profile-edit';
 import { InventoryCountList } from './inventory-count/inventory-count-list';
 import { InventoryCountCreate } from './inventory-count/inventory-count-create';
 import { InventoryCountEdit } from './inventory-count/inventory-count-edit';
+import {i18nProvider} from './i18nProvider';
 
 function App() {
+  
     return <>
-        <Admin layout={ProfileLayout} dataProvider={dataProvider} authProvider={authProvider}>
+        <Admin i18nProvider={i18nProvider} layout={ProfileLayout} dataProvider={dataProvider} authProvider={authProvider}>
             <Resource
                 name='categories'
                 list={CategoryList}
