@@ -29,7 +29,7 @@ const getProduct = async (req, res, next) => {
             id: product.id,
             name: product.name,
             description: product.description,
-            stock: product.stock,
+            currentQty: product.currentQty,
             status: product.status,
             createdAt: product.createdAt,
             updatedAt: product.updatedAt,

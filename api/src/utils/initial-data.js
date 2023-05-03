@@ -1,4 +1,8 @@
-const { Category, Employee, Product, CategoryProduct, User, ProductPhoto, DeliveryNote, DeliveryNoteItem, Supplier } = require('../db');
+const { Category, Employee, Product,
+    CategoryProduct, User, ProductPhoto,
+    DeliveryNote, DeliveryNoteItem, Supplier,
+    InventoryCount, InventoryCountItem,
+    PurchaseReceipt, PurchaseReceiptItem } = require('../db');
 
 module.exports = async () => {
     // Categories
@@ -115,10 +119,17 @@ module.exports = async () => {
         {
             employeeId: 2,
             documentDate: '2023-04-01',
-            documentNumber: 4,
+            documentNumber: 2,
             employeeSign: 'asdfasdf',
             status: 'Completed'
         },
+        {
+            employeeId: 2,
+            documentDate: '2023-04-28',
+            documentNumber: 3,
+            employeeSign: 'asdfasdf',
+            status: 'Canceled'
+        }
     ]
 
     await DeliveryNote.bulkCreate(deliveryNotes);
@@ -134,6 +145,11 @@ module.exports = async () => {
             deliveryNoteId: 2,
             productId: 2,
             quantity: 10
+        },
+        {
+            deliveryNoteId: 3,
+            productId: 1,
+            quantity: 10
         }
     ]
 
@@ -148,4 +164,49 @@ module.exports = async () => {
     ]
 
     await Supplier.bulkCreate(suppliers);
+
+    // Purchase Receipts
+    const purchaseReceipts = [
+        {
+            supplierId: 1,
+            documentDate: '2023-03-01',
+            documentNumber: 123456,
+            status: 'Completed'
+        }
+    ]
+
+    await PurchaseReceipt.bulkCreate(purchaseReceipts);
+
+    const purchaseReceiptsItems = [
+        {
+            purchaseReceiptId: 1,
+            productId: 1,
+            quantity: 20
+        }
+    ]
+
+    await PurchaseReceiptItem.bulkCreate(purchaseReceiptsItems);
+
+    // Inventory Counts
+    
+    const inventoryCounts = [
+        {
+            userId: 1,
+            documentDate: '2023-04-28',
+            status: 'Completed'
+        }
+    ]
+
+    await InventoryCount.bulkCreate(inventoryCounts);
+
+    const inventoryCountsItems = [
+        {
+            inventoryCountId: 1,
+            productId: 1,
+            currentQty: 10,
+            realQty: 10
+        }
+    ]
+
+    await InventoryCountItem.bulkCreate(inventoryCountsItems);
 }

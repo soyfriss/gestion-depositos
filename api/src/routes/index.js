@@ -8,6 +8,7 @@ const supplierRouter = require('./supplier');
 const purchaseRouter = require('./purchase-receipt');
 const ticketRouter = require('./ticket');
 const profileRouter = require('./profile');
+const inventoryRouter = require('./inventory-count');
 
 //Login & Logout
 const passport = require('passport');
@@ -25,5 +26,6 @@ router.use('/suppliers', passport.authenticate('jwt', { session: false }), suppl
 router.use('/purchase-receipts', passport.authenticate('jwt', { session: false }), purchaseRouter);
 router.use('/tickets', ticketRouter);
 router.use('/profile', passport.authenticate('jwt', { session: false }), profileRouter);
+router.use('/inventory-counts', passport.authenticate('jwt', { session: false }), inventoryRouter);
 
 module.exports = router;
