@@ -16,7 +16,9 @@ const updateStock = async (productId, quantity, transaction) => {
     return product;
 }
 
-const updateStock2 = async (productId) => {
+// Count stock taking into account all movements of the product
+// Function unused
+const countStock = async (productId) => {
     // Get product qty from Purchase Receipts
     let options = {
         include: [
@@ -68,5 +70,4 @@ const updateStock2 = async (productId) => {
     return qtyByPR - qtyByDN + realQtyByIC - currentQtyByIC;
 }
 
-module.exports = { updateStock, updateStock2 };
-
+module.exports = updateStock;
